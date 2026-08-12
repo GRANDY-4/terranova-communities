@@ -426,7 +426,149 @@ button:hover {
         margin: 50px 15px;
     }
 }
+
+/* ========== MOD MENU ========== */
+#modMenu {
+    display: none;
+    position: fixed;
+    top: 40px;
+    right: 20px;
+    width: 420px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: #fff;
+    border: 2px solid #228d3d;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    z-index: 200;
+    font-size: 9pt;
+}
+
+#modMenu .mod-header {
+    background: #40D664;
+    color: #003b12;
+    padding: 8px 12px;
+    font-weight: bold;
+    font-size: 11pt;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#modMenu .mod-header button {
+    background: transparent;
+    border: 1px solid #003b12;
+    color: #003b12;
+    padding: 2px 8px;
+    cursor: pointer;
+}
+
+#modMenu .mod-section {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 12px;
+}
+
+#modMenu .mod-section h3 {
+    margin: 0 0 8px;
+    font-size: 10pt;
+    color: #075f1e;
+}
+
+#modMenu label {
+    display: block;
+    margin-top: 6px;
+    font-size: 8pt;
+    color: #555;
+}
+
+#modMenu input[type="text"],
+#modMenu input[type="number"],
+#modMenu select,
+#modMenu textarea {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 3px;
+    padding: 4px;
+    border: 1px solid #999;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 9pt;
+}
+
+#modMenu textarea {
+    height: 60px;
+    resize: vertical;
+}
+
+#modMenu .mod-actions {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+#modMenu .user-result {
+    margin-top: 8px;
+    padding: 8px;
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    font-size: 8pt;
+}
+
+#modMenu .history-item {
+    border-bottom: 1px solid #eee;
+    padding: 4px 0;
+    font-size: 8pt;
+}
+
+#modMenu .history-item.deleted {
+    opacity: 0.6;
+    text-decoration: line-through;
+}
+
+#modNotification {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+}
+
+#modNotification .notif-box {
+    background: #fff;
+    border: 3px solid #b00000;
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+#modNotification .notif-box h2 {
+    color: #b00000;
+    margin: 0 0 12px;
+    font-size: 16px;
+}
+
+#modNotification .notif-box p {
+    font-size: 10pt;
+    line-height: 1.5;
+}
+
+.mod-badge {
+    background: #b00000;
+    color: #fff;
+    border: 1px solid #800;
+    padding: 1px 4px;
+    margin-left: 3px;
+    font-size: 7px;
+    font-weight: bold;
+}
 </style>
+
 </head>
 
 <body>
@@ -464,7 +606,7 @@ button:hover {
                 id="searchInput"
                 type="text"
                 placeholder="search"
-                onkeydown="if(event.key === 'Enter') searchPosts()"
+                onkeydown="if(event.key==='Enter') searchPosts()"
             >
 
             <button onclick="searchPosts()">
@@ -487,10 +629,6 @@ button:hover {
 
 
     <div id="communitybar">
-
-        <a href="#" onclick="filterCommunity('all'); return false;">
-            all
-        </a>
 
         <a href="#" onclick="filterCommunity('Terranova'); return false;">
             Terranova
@@ -525,7 +663,7 @@ button:hover {
 
             <div id="posthead">
 
-                All posts
+                Terranova Communities
 
                 &nbsp;|&nbsp;
 
@@ -607,10 +745,6 @@ button:hover {
 
                     <a href="#" onclick="filterCommunity('Development'); return false;">
                         /Development
-                    </a><br>
-
-                    <a href="#" onclick="filterCommunity('Screenshots'); return false;">
-                        /Screenshots
                     </a><br>
 
                     <a href="#" onclick="filterCommunity('Suggestions'); return false;">
@@ -779,32 +913,14 @@ button:hover {
 
             <select id="postCommunity">
 
-                <option value="Terranova">
-                    Terranova
-                </option>
-
-                <option value="Builds">
-                    Builds
-                </option>
-
-                <option value="Survival">
-                    Survival
-                </option>
-
-                <option value="Development">
-                    Development
-                </option>
-
-                <option value="Screenshots">
-                    Screenshots
-                </option>
-
-                <option value="Suggestions">
-                    Suggestions
-                </option>
+                <option>Terranova</option>
+                <option>Builds</option>
+                <option>Survival</option>
+                <option>Development</option>
+                <option>Screenshots</option>
+                <option>Suggestions</option>
 
             </select>
-
         </label>
 
 
@@ -838,7 +954,6 @@ button:hover {
                 type="file"
                 accept="image/png,image/jpeg,image/gif,image/webp"
             >
-
         </label>
 
 
@@ -868,7 +983,80 @@ button:hover {
 </div>
 
 
+<!-- MOD MENU -->
+<div id="modMenu">
+    <div class="mod-header">
+        <span>🛡 Mod Menu</span>
+        <button onclick="closeModMenu()">✕</button>
+    </div>
+
+    <div class="mod-section">
+        <h3>Global Locks</h3>
+        <div id="lockStatus">Loading...</div>
+        <label>Lock posting for (minutes)</label>
+        <input type="number" id="postLockMinutes" min="0" value="30" placeholder="0 = unlock">
+        <label>Lock commenting for (minutes)</label>
+        <input type="number" id="commentLockMinutes" min="0" value="30" placeholder="0 = unlock">
+        <div class="mod-actions">
+            <button class="greenbutton" onclick="setPostLock()">Set Post Lock</button>
+            <button class="greenbutton" onclick="setCommentLock()">Set Comment Lock</button>
+            <button onclick="clearLocks()">Clear All Locks</button>
+        </div>
+    </div>
+
+    <div class="mod-section">
+        <h3>User Lookup</h3>
+        <label>Username</label>
+        <input type="text" id="modUserSearch" placeholder="exact username" maxlength="24">
+        <div class="mod-actions">
+            <button class="greenbutton" onclick="lookupUser()">Lookup</button>
+        </div>
+        <div id="modUserResult" class="user-result" style="display:none;"></div>
+    </div>
+
+    <div class="mod-section" id="modUserActions" style="display:none;">
+        <h3>Actions on <span id="modTargetName"></span></h3>
+        <label>Reason (required for strike/ban)</label>
+        <textarea id="modReason" placeholder="reason..."></textarea>
+        <div class="mod-actions">
+            <button class="greenbutton" onclick="modStrikeUser()">Strike</button>
+            <button style="background:#c00;color:#fff;border-color:#800;" onclick="modBanUser()">Ban</button>
+            <button onclick="modUnbanUser()">Unban</button>
+            <button onclick="modGrantMod()">Grant Mod</button>
+            <button onclick="modRevokeMod()">Revoke Mod</button>
+        </div>
+        <div class="mod-actions" style="margin-top:10px;">
+            <button onclick="loadUserHistory('posts')">View Posts (incl. deleted)</button>
+            <button onclick="loadUserHistory('comments')">View Comments (incl. deleted)</button>
+        </div>
+        <div id="modHistory" style="margin-top:8px; max-height:200px; overflow-y:auto;"></div>
+    </div>
+
+    <div class="mod-section">
+        <h3>Quick Delete Post</h3>
+        <label>Post ID</label>
+        <input type="number" id="modDeletePostId" placeholder="post id">
+        <div class="mod-actions">
+            <button style="background:#c00;color:#fff;border-color:#800;" onclick="modSoftDeletePost()">Soft Delete Post</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- MOD NOTIFICATION OVERLAY (strike / ban message) -->
+<div id="modNotification">
+    <div class="notif-box">
+        <h2 id="notifTitle">Account Action</h2>
+        <p id="notifMessage"></p>
+        <br>
+        <button class="greenbutton" onclick="dismissModNotification()">OK</button>
+    </div>
+</div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
 
 <script>
 
@@ -895,8 +1083,102 @@ const sb =
 
 let currentUser = null;
 let currentProfile = null;
+let isMod = false;          // current user is mod or GRAND
+let isGrand = false;        // username === "GRAND"
+let spacePressed = false;
+let selectedModUser = null; // profile object currently targeted in mod menu
+let postLockUntil = null;
+let commentLockUntil = null;
 
-let currentCategory = "all";
+/*
+  REQUIRED SUPABASE SCHEMA ADDITIONS (run in SQL editor):
+
+  ALTER TABLE profiles ADD COLUMN IF NOT EXISTS is_mod boolean DEFAULT false;
+  ALTER TABLE profiles ADD COLUMN IF NOT EXISTS is_banned boolean DEFAULT false;
+  ALTER TABLE profiles ADD COLUMN IF NOT EXISTS ban_reason text;
+  ALTER TABLE profiles ADD COLUMN IF NOT EXISTS banned_by text;
+  ALTER TABLE profiles ADD COLUMN IF NOT EXISTS banned_at timestamptz;
+  ALTER TABLE profiles ADD COLUMN IF NOT EXISTS strikes integer DEFAULT 0;
+  ALTER TABLE profiles ADD COLUMN IF NOT EXISTS last_strike_reason text;
+  ALTER TABLE profiles ADD COLUMN IF NOT EXISTS last_strike_by text;
+  ALTER TABLE profiles ADD COLUMN IF NOT EXISTS last_strike_at timestamptz;
+
+  ALTER TABLE posts ADD COLUMN IF NOT EXISTS deleted_at timestamptz;
+  ALTER TABLE comments ADD COLUMN IF NOT EXISTS deleted_at timestamptz;
+
+  CREATE TABLE IF NOT EXISTS site_settings (
+    key text PRIMARY KEY,
+    value text,
+    updated_at timestamptz DEFAULT now()
+  );
+
+  CREATE TABLE IF NOT EXISTS user_notifications (
+    id bigserial PRIMARY KEY,
+    user_id uuid REFERENCES auth.users(id),
+    type text,
+    message text,
+    from_user text,
+    reason text,
+    created_at timestamptz DEFAULT now(),
+    read_at timestamptz
+  );
+
+  -- CRITICAL: RLS policies. Without these, mod deletes/updates will appear to
+  -- succeed but affect 0 rows (or return a permission error).
+
+  -- Allow mods / GRAND to soft-delete (UPDATE) any post:
+  CREATE POLICY "mods_can_update_posts" ON posts
+  FOR UPDATE TO authenticated
+  USING (
+    auth.uid() = author_id
+    OR EXISTS (
+      SELECT 1 FROM profiles
+      WHERE profiles.id = auth.uid()
+      AND (profiles.is_mod = true OR profiles.username = 'GRAND')
+    )
+  );
+
+  -- Allow mods / GRAND to hard-delete any post (fallback):
+  CREATE POLICY "mods_can_delete_posts" ON posts
+  FOR DELETE TO authenticated
+  USING (
+    auth.uid() = author_id
+    OR EXISTS (
+      SELECT 1 FROM profiles
+      WHERE profiles.id = auth.uid()
+      AND (profiles.is_mod = true OR profiles.username = 'GRAND')
+    )
+  );
+
+
+  -- Same idea for comments if you soft-delete them later:
+  CREATE POLICY "mods_can_update_comments" ON comments
+  FOR UPDATE TO authenticated
+  USING (
+    auth.uid() = author_id
+    OR EXISTS (
+      SELECT 1 FROM profiles
+      WHERE profiles.id = auth.uid()
+      AND (profiles.is_mod = true OR profiles.username = 'GRAND')
+    )
+  );
+
+  -- Allow mods to update other profiles (strike / ban / grant mod):
+  CREATE POLICY "mods_can_update_profiles" ON profiles
+  FOR UPDATE TO authenticated
+  USING (
+    auth.uid() = id
+    OR EXISTS (
+      SELECT 1 FROM profiles p
+      WHERE p.id = auth.uid()
+      AND (p.is_mod = true OR p.username = 'GRAND')
+    )
+  );
+
+  -- site_settings + user_notifications also need INSERT/UPDATE policies for mods.
+*/
+
+
 
 
 /* ============================================================
@@ -936,8 +1218,11 @@ function escapeHTML(value) {
 
 function formatDate(date) {
 
-    const d = new Date(date);
-    const now = new Date();
+    const d =
+        new Date(date);
+
+    const now =
+        new Date();
 
     const seconds =
         Math.floor(
@@ -968,7 +1253,7 @@ function formatDate(date) {
 
 
 /* ============================================================
-   CURRENT USER
+   LOAD CURRENT USER
 ============================================================ */
 
 async function loadUser() {
@@ -979,39 +1264,81 @@ async function loadUser() {
         }
     } = await sb.auth.getUser();
 
-    currentUser =
-        user || null;
-
-    currentProfile =
-        null;
-
+    currentUser = user || null;
+    currentProfile = null;
+    isMod = false;
+    isGrand = false;
 
     if (currentUser) {
 
-        const {
-            data: profile
-        } = await sb
+        // Try full select first (mod columns). If columns don't exist yet, fall back.
+        let profile = null;
+        let { data, error } = await sb
             .from("profiles")
             .select(`
                 id,
                 username,
-                developer
+                developer,
+                is_mod,
+                is_banned,
+                ban_reason,
+                banned_by,
+                banned_at,
+                strikes,
+                last_strike_reason,
+                last_strike_by,
+                last_strike_at
             `)
-            .eq(
-                "id",
-                currentUser.id
-            )
+            .eq("id", currentUser.id)
             .maybeSingle();
 
-        currentProfile =
-            profile || null;
+        if (error) {
+            // Columns probably missing — fall back to basic fields
+            const fallback = await sb
+                .from("profiles")
+                .select("id, username, developer")
+                .eq("id", currentUser.id)
+                .maybeSingle();
+            profile = fallback.data || null;
+        } else {
+            profile = data || null;
+        }
 
+        currentProfile = profile;
+
+        if (currentProfile) {
+            isGrand = currentProfile.username === "GRAND";
+            isMod = isGrand || currentProfile.is_mod === true;
+
+            // If banned, force logout and show message
+            if (currentProfile.is_banned) {
+                await showBanNotification(
+                    currentProfile.banned_by || "a moderator",
+                    currentProfile.ban_reason || "No reason provided"
+                );
+                await sb.auth.signOut();
+                currentUser = null;
+                currentProfile = null;
+                isMod = false;
+                isGrand = false;
+                updateAccountArea();
+                return;
+            }
+        }
+
+        // Check unread notifications (strikes etc.) — ignore if table missing
+        try {
+            await checkUserNotifications();
+        } catch (e) {}
     }
 
-
     updateAccountArea();
-
+    try {
+        await loadLocks();
+    } catch (e) {}
 }
+
+
 
 
 /* ============================================================
@@ -1054,14 +1381,24 @@ function updateAccountArea() {
             )
             : "account";
 
+    const modBadge = isMod
+        ? `<span class="mod-badge">${isGrand ? "GRAND" : "MOD"}</span>`
+        : "";
+
+    const modLink = isMod
+        ? `<a href="#" onclick="openModMenu(); return false;" style="margin-right:10px;">mod menu</a>`
+        : "";
 
     area.innerHTML = `
 
         <span style="color:#075f1e;">
             ${username}
         </span>
+        ${modBadge}
 
         &nbsp;
+
+        ${modLink}
 
         <a
             href="#"
@@ -1078,28 +1415,39 @@ function updateAccountArea() {
 }
 
 
+
+
 /* ============================================================
    AUTH
 ============================================================ */
 
-let authMode = "login";
+let authMode =
+    "login";
 
 
 function openAuth(mode) {
 
-    authMode = mode;
+    authMode =
+        mode;
+
 
     document.getElementById(
         "modalBackground"
-    ).style.display = "block";
+    ).style.display =
+        "block";
+
 
     document.getElementById(
         "authModal"
-    ).style.display = "block";
+    ).style.display =
+        "block";
+
 
     document.getElementById(
         "postModal"
-    ).style.display = "none";
+    ).style.display =
+        "none";
+
 
     updateAuthModal();
 
@@ -1146,7 +1494,8 @@ function updateAuthModal() {
 
     document.getElementById(
         "authError"
-    ).textContent = "";
+    ).textContent =
+        "";
 
 }
 
@@ -1174,17 +1523,21 @@ async function submitAuth() {
             "authEmail"
         ).value.trim();
 
+
     const password =
         document.getElementById(
             "authPassword"
         ).value;
+
 
     const errorBox =
         document.getElementById(
             "authError"
         );
 
-    errorBox.textContent = "";
+
+    errorBox.textContent =
+        "";
 
 
     if (!email || !password) {
@@ -1196,6 +1549,8 @@ async function submitAuth() {
 
     }
 
+
+    /* LOGIN */
 
     if (authMode === "login") {
 
@@ -1222,15 +1577,14 @@ async function submitAuth() {
         closeModal();
 
         await loadUser();
-
-        await loadPosts({
-            community: currentCategory
-        });
+        await loadPosts();
 
         return;
 
     }
 
+
+    /* SIGNUP */
 
     const username =
         document.getElementById(
@@ -1251,6 +1605,10 @@ async function submitAuth() {
 
     }
 
+
+    /*
+        Check if username already exists.
+    */
 
     const {
         data: existing,
@@ -1285,6 +1643,11 @@ async function submitAuth() {
     }
 
 
+    /*
+        GRAND is reserved.
+        The SQL database should also enforce this.
+    */
+
     const {
         data,
         error
@@ -1318,9 +1681,7 @@ async function submitAuth() {
 
         closeModal();
 
-        await loadPosts({
-            community: currentCategory
-        });
+        await loadPosts();
 
         return;
 
@@ -1341,65 +1702,15 @@ async function logout() {
 
     await sb.auth.signOut();
 
-    currentUser = null;
-    currentProfile = null;
+    currentUser =
+        null;
+
+    currentProfile =
+        null;
 
     updateAccountArea();
 
-    await loadPosts({
-        community: currentCategory
-    });
-
-}
-
-
-/* ============================================================
-   POST HEAD
-============================================================ */
-
-function updatePostHead(title) {
-
-    document.getElementById(
-        "posthead"
-    ).innerHTML = `
-
-        ${escapeHTML(title)}
-
-        &nbsp;|&nbsp;
-
-        <a
-            href="#"
-            onclick="
-                loadPosts({
-                    community: currentCategory
-                });
-                return false;
-            "
-        >
-            new
-        </a>
-
-        &nbsp;|&nbsp;
-
-        <a
-            href="#"
-            onclick="
-                sortTop();
-                return false;
-            "
-        >
-            top
-        </a>
-
-        <button
-            class="greenbutton"
-            style="float:right;"
-            onclick="openPostModal()"
-        >
-            submit a post
-        </button>
-
-    `;
+    await loadPosts();
 
 }
 
@@ -1409,17 +1720,6 @@ function updatePostHead(title) {
 ============================================================ */
 
 async function loadPosts(options = {}) {
-
-    if (
-        Object.prototype.hasOwnProperty.call(
-            options,
-            "community"
-        )
-    ) {
-        currentCategory =
-            options.community || "all";
-    }
-
 
     const container =
         document.getElementById(
@@ -1436,6 +1736,8 @@ async function loadPosts(options = {}) {
     `;
 
 
+    // Prefer soft-delete filter. If the column doesn't exist yet the query will
+    // fail; we fall back to a query without deleted_at.
     let query =
         sb
             .from("posts")
@@ -1447,41 +1749,28 @@ async function loadPosts(options = {}) {
                 body,
                 image_url,
                 score,
-                created_at
-            `);
+                created_at,
+                deleted_at
+            `)
+            .is("deleted_at", null);
 
 
-    /*
-        THIS IS THE CATEGORY FILTER.
-
-        "all" gets everything.
-
-        Anything else gets ONLY posts
-        whose community exactly matches
-        the selected category.
-    */
-
-    if (
-        currentCategory !== "all"
-    ) {
+    if (options.community) {
 
         query =
             query.eq(
                 "community",
-                currentCategory
+                options.community
             );
 
     }
 
 
-    /*
-        SEARCH
-    */
-
     if (options.search) {
 
         const q =
             options.search.trim();
+
 
         if (q) {
 
@@ -1494,10 +1783,6 @@ async function loadPosts(options = {}) {
 
     }
 
-
-    /*
-        SORT
-    */
 
     if (options.top) {
 
@@ -1529,11 +1814,45 @@ async function loadPosts(options = {}) {
     }
 
 
-    const {
+    let {
         data: posts,
         error
     } = await query;
 
+    // If deleted_at column doesn't exist yet, retry without it
+    if (error && (error.message || "").toLowerCase().includes("deleted_at")) {
+        let fallback = sb
+            .from("posts")
+            .select(`
+                id,
+                author_id,
+                community,
+                title,
+                body,
+                image_url,
+                score,
+                created_at
+            `);
+
+        if (options.community) {
+            fallback = fallback.eq("community", options.community);
+        }
+        if (options.search) {
+            const q = options.search.trim();
+            if (q) {
+                fallback = fallback.or(`title.ilike.%${q}%,body.ilike.%${q}%`);
+            }
+        }
+        if (options.top) {
+            fallback = fallback.order("score", { ascending: false }).order("created_at", { ascending: false });
+        } else {
+            fallback = fallback.order("created_at", { ascending: false });
+        }
+
+        const retry = await fallback;
+        posts = retry.data;
+        error = retry.error;
+    }
 
     if (error) {
 
@@ -1558,6 +1877,7 @@ async function loadPosts(options = {}) {
     }
 
 
+
     if (
         !posts ||
         posts.length === 0
@@ -1571,9 +1891,7 @@ async function loadPosts(options = {}) {
 
 
     /*
-        Fetch authors separately.
-        This avoids the ambiguous
-        profiles relationship.
+        Get every author ID.
     */
 
     const authorIDs = [
@@ -1585,6 +1903,11 @@ async function loadPosts(options = {}) {
         )
     ];
 
+
+    /*
+        Fetch profiles separately.
+        This is the important fix.
+    */
 
     const {
         data: profiles,
@@ -1628,16 +1951,19 @@ async function loadPosts(options = {}) {
     const profileMap = {};
 
 
-    (profiles || []).forEach(
-        profile => {
+    (profiles || [])
+        .forEach(profile => {
 
             profileMap[
                 profile.id
             ] = profile;
 
-        }
-    );
+        });
 
+
+    /*
+        Attach profile to each post.
+    */
 
     posts.forEach(post => {
 
@@ -1647,32 +1973,6 @@ async function loadPosts(options = {}) {
             ] || {};
 
     });
-
-
-    const categoryNames = {
-
-        all: "All posts",
-
-        Terranova: "Terranova",
-
-        Builds: "Builds",
-
-        Survival: "Survival",
-
-        Development: "Development",
-
-        Screenshots: "Screenshots",
-
-        Suggestions: "Suggestions"
-
-    };
-
-
-    updatePostHead(
-        categoryNames[
-            currentCategory
-        ] || currentCategory
-    );
 
 
     renderPosts(posts);
@@ -1694,22 +1994,15 @@ function renderPosts(posts) {
 
     if (!posts.length) {
 
-        const categoryText =
-            currentCategory === "all"
-                ? "this community"
-                : "/" + currentCategory;
-
-
         container.innerHTML = `
 
             <div class="empty">
 
                 <b>
-                    No posts here yet.
+                    There aren't any posts yet.
                 </b>
 
-                There aren't any posts in
-                ${escapeHTML(categoryText)}.
+                Be the first to start a discussion.
 
                 <br><br>
 
@@ -1735,9 +2028,11 @@ function renderPosts(posts) {
             const profile =
                 post.profiles || {};
 
+
             const username =
                 profile.username ||
                 "unknown";
+
 
             const developer =
                 profile.developer === true;
@@ -1861,8 +2156,7 @@ function renderPosts(posts) {
 
                             ${
                                 currentUser &&
-                                currentUser.id ===
-                                post.author_id
+                                (currentUser.id === post.author_id || isMod)
                                 ? `
                                     <a
                                         onclick="
@@ -1891,101 +2185,6 @@ function renderPosts(posts) {
 
 
 /* ============================================================
-   CATEGORY FILTER
-============================================================ */
-
-async function filterCommunity(
-    category
-) {
-
-    currentCategory =
-        category;
-
-
-    document.getElementById(
-        "searchInput"
-    ).value = "";
-
-
-    await loadPosts({
-
-        community:
-            category
-
-    });
-
-}
-
-
-/* ============================================================
-   TOP
-============================================================ */
-
-async function sortTop() {
-
-    await loadPosts({
-
-        community:
-            currentCategory,
-
-        top: true
-
-    });
-
-}
-
-
-/* ============================================================
-   HOME
-============================================================ */
-
-async function showHome() {
-
-    currentCategory =
-        "all";
-
-
-    document.getElementById(
-        "searchInput"
-    ).value = "";
-
-
-    await loadPosts({
-
-        community:
-            "all"
-
-    });
-
-}
-
-
-/* ============================================================
-   SEARCH
-============================================================ */
-
-async function searchPosts() {
-
-    const query =
-        document.getElementById(
-            "searchInput"
-        ).value.trim();
-
-
-    await loadPosts({
-
-        community:
-            currentCategory,
-
-        search:
-            query
-
-    });
-
-}
-
-
-/* ============================================================
    POST MODAL
 ============================================================ */
 
@@ -2002,56 +2201,26 @@ function openPostModal() {
 
     document.getElementById(
         "modalBackground"
-    ).style.display = "block";
+    ).style.display =
+        "block";
 
 
     document.getElementById(
         "authModal"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     document.getElementById(
         "postModal"
-    ).style.display = "block";
+    ).style.display =
+        "block";
 
 
     document.getElementById(
         "postError"
-    ).textContent = "";
-
-
-    /*
-        If we're inside a category,
-        automatically select that category.
-    */
-
-    if (
-        currentCategory !== "all"
-    ) {
-
-        const select =
-            document.getElementById(
-                "postCommunity"
-            );
-
-
-        const option =
-            [...select.options]
-                .find(
-                    o =>
-                        o.value ===
-                        currentCategory
-                );
-
-
-        if (option) {
-
-            select.value =
-                currentCategory;
-
-        }
-
-    }
+    ).textContent =
+        "";
 
 }
 
@@ -2080,6 +2249,14 @@ async function submitPost() {
 
         return;
 
+    }
+
+    // Global post lock (mods/GRAND can still post)
+    if (isPostingLocked() && !isMod) {
+        document.getElementById("postError").textContent =
+            "Posting is currently locked by moderators until " +
+            (postLockUntil ? postLockUntil.toLocaleString() : "later") + ".";
+        return;
     }
 
 
@@ -2113,7 +2290,8 @@ async function submitPost() {
         );
 
 
-    errorBox.textContent = "";
+    errorBox.textContent =
+        "";
 
 
     if (!title) {
@@ -2126,12 +2304,11 @@ async function submitPost() {
     }
 
 
-    let imageURL = null;
+    let imageURL =
+        null;
 
 
-    /*
-        IMAGE UPLOAD
-    */
+    /* IMAGE */
 
     if (image) {
 
@@ -2226,9 +2403,7 @@ async function submitPost() {
     }
 
 
-    /*
-        INSERT POST
-    */
+    /* POST */
 
     const {
         error
@@ -2249,10 +2424,7 @@ async function submitPost() {
                 body || null,
 
             image_url:
-                imageURL,
-
-            score:
-                0
+                imageURL
 
         });
 
@@ -2284,17 +2456,7 @@ async function submitPost() {
 
     closeModal();
 
-
-    /*
-        Stay in the category we're currently viewing.
-    */
-
-    await loadPosts({
-
-        community:
-            currentCategory
-
-    });
+    await loadPosts();
 
 }
 
@@ -2348,7 +2510,8 @@ async function vote(
     if (existing) {
 
         if (
-            existing.vote === amount
+            existing.vote ===
+            amount
         ) {
 
             await sb
@@ -2401,6 +2564,10 @@ async function vote(
     }
 
 
+    /*
+        Recalculate score.
+    */
+
     const {
         data: votes
     } = await sb
@@ -2415,11 +2582,8 @@ async function vote(
     const score =
         (votes || [])
             .reduce(
-                (
-                    total,
-                    vote
-                ) =>
-                    total + vote.vote,
+                (total, v) =>
+                    total + v.vote,
                 0
             );
 
@@ -2435,18 +2599,13 @@ async function vote(
         );
 
 
-    await loadPosts({
-
-        community:
-            currentCategory
-
-    });
+    await loadPosts();
 
 }
 
 
 /* ============================================================
-   DELETE POST
+   DELETE
 ============================================================ */
 
 async function deletePost(id) {
@@ -2454,36 +2613,100 @@ async function deletePost(id) {
     if (!currentUser)
         return;
 
-
-    if (
-        !confirm(
-            "Delete this post?"
-        )
-    ) {
+    if (!confirm("Delete this post?")) {
         return;
     }
 
-
-    const {
-        error
-    } = await sb
+    // 1) Prefer soft-delete (keeps history for mods)
+    let softQuery = sb
         .from("posts")
-        .delete()
-        .eq(
-            "id",
-            id
-        )
-        .eq(
-            "author_id",
-            currentUser.id
-        );
+        .update({ deleted_at: new Date().toISOString() })
+        .eq("id", id)
+        .select("id, deleted_at");
+
+    if (!isMod) {
+        softQuery = softQuery.eq("author_id", currentUser.id);
+    }
+
+    let { data, error } = await softQuery;
+
+    // Soft-delete worked
+    if (!error && data && data.length > 0) {
+        await loadPosts();
+        return;
+    }
+
+    // 2) Soft-delete failed (missing column or RLS). Mods get a hard-delete fallback.
+    if (isMod) {
+        let hardQuery = sb
+            .from("posts")
+            .delete()
+            .eq("id", id)
+            .select("id");
+
+        // authors can only hard-delete their own; mods can delete any
+        // (if RLS still blocks, the hard delete will also fail)
+
+        const hard = await hardQuery;
+
+        if (hard.error) {
+            alert(
+                "Delete failed.\n\n" +
+                "Soft-delete error: " + (error ? error.message : "0 rows") + "\n" +
+                "Hard-delete error: " + hard.error.message + "\n\n" +
+                "You almost certainly need an RLS policy that lets mods UPDATE/DELETE any post.\n" +
+                "See the SQL comments at the top of this file for the exact policy."
+            );
+            return;
+        }
+
+        if (!hard.data || hard.data.length === 0) {
+            alert(
+                "Delete had no effect (RLS blocked it).\n\n" +
+                "Run this in the Supabase SQL editor:\n\n" +
+                "CREATE POLICY \"mods_can_delete_posts\" ON posts\n" +
+                "FOR DELETE TO authenticated\n" +
+                "USING (\n" +
+                "  auth.uid() = author_id\n" +
+                "  OR EXISTS (\n" +
+                "    SELECT 1 FROM profiles\n" +
+                "    WHERE profiles.id = auth.uid()\n" +
+                "    AND (profiles.is_mod = true OR profiles.username = 'GRAND')\n" +
+                "  )\n" +
+                ");\n\n" +
+                "And the matching UPDATE policy for soft-delete (see file header comments)."
+            );
+            return;
+        }
+
+        await loadPosts();
+        return;
+    }
+
+    // Non-mod soft-delete failed
+    alert(
+        "Delete failed: " + (error ? error.message : "no permission or post not found")
+    );
+}
 
 
-    if (error) {
 
-        alert(
-            error.message
-        );
+
+/* ============================================================
+   SEARCH
+============================================================ */
+
+async function searchPosts() {
+
+    const query =
+        document.getElementById(
+            "searchInput"
+        ).value.trim();
+
+
+    if (!query) {
+
+        await loadPosts();
 
         return;
 
@@ -2491,11 +2714,51 @@ async function deletePost(id) {
 
 
     await loadPosts({
-
-        community:
-            currentCategory
-
+        search: query
     });
+
+}
+
+
+/* ============================================================
+   COMMUNITY
+============================================================ */
+
+async function filterCommunity(
+    name
+) {
+
+    await loadPosts({
+        community: name
+    });
+
+}
+
+
+/* ============================================================
+   TOP
+============================================================ */
+
+async function sortTop() {
+
+    await loadPosts({
+        top: true
+    });
+
+}
+
+
+/* ============================================================
+   HOME
+============================================================ */
+
+async function showHome() {
+
+    document.getElementById(
+        "searchInput"
+    ).value = "";
+
+    await loadPosts();
 
 }
 
@@ -2505,6 +2768,10 @@ async function deletePost(id) {
 ============================================================ */
 
 async function openPost(id) {
+
+    /*
+        Fetch the post WITHOUT profiles().
+    */
 
     const {
         data: post,
@@ -2542,7 +2809,7 @@ async function openPost(id) {
 
 
     /*
-        Author profile separately.
+        Fetch the post author separately.
     */
 
     const {
@@ -2562,7 +2829,7 @@ async function openPost(id) {
 
 
     /*
-        Comments.
+        Fetch comments without profile embedding.
     */
 
     const {
@@ -2575,12 +2842,14 @@ async function openPost(id) {
             post_id,
             author_id,
             body,
-            created_at
+            created_at,
+            deleted_at
         `)
         .eq(
             "post_id",
             id
         )
+        .is("deleted_at", null)
         .order(
             "created_at",
             {
@@ -2601,7 +2870,7 @@ async function openPost(id) {
 
 
     /*
-        Comment profiles separately.
+        Fetch comment profiles separately.
     */
 
     const commentAuthorIDs = [
@@ -2619,7 +2888,7 @@ async function openPost(id) {
 
 
     if (
-        commentAuthorIDs.length > 0
+        commentAuthorIDs.length
     ) {
 
         const {
@@ -2664,69 +2933,7 @@ async function openPost(id) {
 
     let html = `
 
-        <div
-            style="
-                margin-bottom:8px;
-                font-size:8pt;
-            "
-        >
-
-            <a
-                href="#"
-                onclick="
-                    filterCommunity(
-                        '${escapeHTML(
-                            post.community
-                        )}'
-                    );
-                    return false;
-                "
-            >
-                /${escapeHTML(
-                    post.community
-                )}
-            </a>
-
-            &nbsp;·&nbsp;
-
-            <a
-                href="#"
-                onclick="
-                    loadPosts({
-                        community:
-                            currentCategory
-                    });
-                    return false;
-                "
-            >
-                back
-            </a>
-
-        </div>
-
-
         <div class="post">
-
-            <div class="vote">
-
-                <button
-                    onclick="vote(${post.id}, 1)"
-                >
-                    ▲
-                </button>
-
-                <div class="score">
-                    ${post.score || 0}
-                </div>
-
-                <button
-                    onclick="vote(${post.id}, -1)"
-                >
-                    ▼
-                </button>
-
-            </div>
-
 
             <div class="postbody">
 
@@ -2735,7 +2942,6 @@ async function openPost(id) {
                         post.title
                     )}
                 </div>
-
 
                 <div class="meta">
 
@@ -2928,6 +3134,10 @@ async function openPost(id) {
     }
 
 
+    /*
+        Reply box.
+    */
+
     if (currentUser) {
 
         html += `
@@ -3017,6 +3227,14 @@ async function submitComment(
 
     }
 
+    if (isCommentingLocked() && !isMod) {
+        alert(
+            "Commenting is currently locked by moderators until " +
+            (commentLockUntil ? commentLockUntil.toLocaleString() : "later") + "."
+        );
+        return;
+    }
+
 
     const box =
         document.getElementById(
@@ -3090,6 +3308,561 @@ sb.auth.onAuthStateChange(
 
 
 /* ============================================================
+   KEYBOARD: Space + M opens mod menu (for GRAND / mods)
+============================================================ */
+
+document.addEventListener("keydown", function(e) {
+    if (e.code === "Space" || e.key === " ") {
+        spacePressed = true;
+    }
+    if ((e.key === "m" || e.key === "M") && spacePressed) {
+        if (isMod || isGrand) {
+            e.preventDefault();
+            openModMenu();
+        }
+    }
+});
+
+document.addEventListener("keyup", function(e) {
+    if (e.code === "Space" || e.key === " ") {
+        spacePressed = false;
+    }
+});
+
+
+/* ============================================================
+   MOD MENU UI
+============================================================ */
+
+function openModMenu() {
+    if (!isMod && !isGrand) return;
+    document.getElementById("modMenu").style.display = "block";
+    loadLocks();
+    selectedModUser = null;
+    document.getElementById("modUserResult").style.display = "none";
+    document.getElementById("modUserActions").style.display = "none";
+    document.getElementById("modHistory").innerHTML = "";
+}
+
+function closeModMenu() {
+    document.getElementById("modMenu").style.display = "none";
+}
+
+
+/* ============================================================
+   SITE LOCKS (posting / commenting)
+============================================================ */
+
+async function loadLocks() {
+    try {
+        const { data } = await sb
+            .from("site_settings")
+            .select("key, value")
+            .in("key", ["post_lock_until", "comment_lock_until"]);
+
+        postLockUntil = null;
+        commentLockUntil = null;
+
+        (data || []).forEach(row => {
+            if (row.key === "post_lock_until" && row.value) {
+                postLockUntil = new Date(row.value);
+            }
+            if (row.key === "comment_lock_until" && row.value) {
+                commentLockUntil = new Date(row.value);
+            }
+        });
+    } catch (e) {
+        // table may not exist yet
+    }
+
+    updateLockStatusUI();
+}
+
+function updateLockStatusUI() {
+    const el = document.getElementById("lockStatus");
+    if (!el) return;
+
+    const now = new Date();
+    let html = "";
+
+    if (postLockUntil && postLockUntil > now) {
+        html += `<div style="color:#b00000;">🚫 Posting locked until ${postLockUntil.toLocaleString()}</div>`;
+    } else {
+        html += `<div style="color:#075f1e;">✓ Posting open</div>`;
+    }
+
+    if (commentLockUntil && commentLockUntil > now) {
+        html += `<div style="color:#b00000;">🚫 Commenting locked until ${commentLockUntil.toLocaleString()}</div>`;
+    } else {
+        html += `<div style="color:#075f1e;">✓ Commenting open</div>`;
+    }
+
+    el.innerHTML = html;
+}
+
+async function setSetting(key, value) {
+    const { error } = await sb
+        .from("site_settings")
+        .upsert({
+            key: key,
+            value: value,
+            updated_at: new Date().toISOString()
+        }, { onConflict: "key" });
+
+    if (error) {
+        alert("Failed to update setting: " + error.message + "\n(Make sure site_settings table and RLS allow mods)");
+        return false;
+    }
+    return true;
+}
+
+async function setPostLock() {
+    const mins = parseInt(document.getElementById("postLockMinutes").value, 10) || 0;
+    if (mins <= 0) {
+        await setSetting("post_lock_until", null);
+        postLockUntil = null;
+    } else {
+        const until = new Date(Date.now() + mins * 60 * 1000);
+        await setSetting("post_lock_until", until.toISOString());
+        postLockUntil = until;
+    }
+    updateLockStatusUI();
+}
+
+async function setCommentLock() {
+    const mins = parseInt(document.getElementById("commentLockMinutes").value, 10) || 0;
+    if (mins <= 0) {
+        await setSetting("comment_lock_until", null);
+        commentLockUntil = null;
+    } else {
+        const until = new Date(Date.now() + mins * 60 * 1000);
+        await setSetting("comment_lock_until", until.toISOString());
+        commentLockUntil = until;
+    }
+    updateLockStatusUI();
+}
+
+async function clearLocks() {
+    await setSetting("post_lock_until", null);
+    await setSetting("comment_lock_until", null);
+    postLockUntil = null;
+    commentLockUntil = null;
+    updateLockStatusUI();
+}
+
+function isPostingLocked() {
+    return postLockUntil && postLockUntil > new Date();
+}
+
+function isCommentingLocked() {
+    return commentLockUntil && commentLockUntil > new Date();
+}
+
+
+/* ============================================================
+   USER LOOKUP & ACTIONS
+============================================================ */
+
+async function lookupUser() {
+    const name = document.getElementById("modUserSearch").value.trim();
+    if (!name) {
+        alert("Enter a username");
+        return;
+    }
+
+    const { data: profile, error } = await sb
+        .from("profiles")
+        .select(`
+            id, username, developer, is_mod, is_banned,
+            ban_reason, banned_by, banned_at, strikes,
+            last_strike_reason, last_strike_by, last_strike_at
+        `)
+        .eq("username", name)
+        .maybeSingle();
+
+    const resultEl = document.getElementById("modUserResult");
+    const actionsEl = document.getElementById("modUserActions");
+
+    if (error || !profile) {
+        resultEl.style.display = "block";
+        resultEl.innerHTML = `<b>User not found:</b> ${escapeHTML(name)}`;
+        actionsEl.style.display = "none";
+        selectedModUser = null;
+        return;
+    }
+
+    selectedModUser = profile;
+
+    resultEl.style.display = "block";
+    resultEl.innerHTML = `
+        <b>${escapeHTML(profile.username)}</b>
+        ${profile.developer ? '<span class="developer">Developer</span>' : ''}
+        ${profile.is_mod ? '<span class="mod-badge">MOD</span>' : ''}
+        <br>
+        Strikes: ${profile.strikes || 0}
+        ${profile.is_banned
+            ? `<br><span style="color:#b00000;">BANNED by ${escapeHTML(profile.banned_by || "?")} — ${escapeHTML(profile.ban_reason || "")}</span>`
+            : '<br>Status: Active'}
+        ${profile.last_strike_at
+            ? `<br>Last strike: ${escapeHTML(profile.last_strike_reason || "")} by ${escapeHTML(profile.last_strike_by || "")}`
+            : ''}
+    `;
+
+    document.getElementById("modTargetName").textContent = profile.username;
+    actionsEl.style.display = "block";
+    document.getElementById("modHistory").innerHTML = "";
+    document.getElementById("modReason").value = "";
+}
+
+async function modStrikeUser() {
+    if (!selectedModUser) return;
+    const reason = document.getElementById("modReason").value.trim();
+    if (!reason) {
+        alert("Reason is required");
+        return;
+    }
+
+    const modName = currentProfile ? currentProfile.username : "Moderator";
+
+    const newStrikes = (selectedModUser.strikes || 0) + 1;
+
+    const { error } = await sb
+        .from("profiles")
+        .update({
+            strikes: newStrikes,
+            last_strike_reason: reason,
+            last_strike_by: modName,
+            last_strike_at: new Date().toISOString()
+        })
+        .eq("id", selectedModUser.id);
+
+    if (error) {
+        alert("Strike failed: " + error.message);
+        return;
+    }
+
+    // Create notification so user sees the message
+    await sb.from("user_notifications").insert({
+        user_id: selectedModUser.id,
+        type: "strike",
+        message: `${modName} has striked your account for:`,
+        from_user: modName,
+        reason: reason
+    });
+
+    alert(`Struck ${selectedModUser.username} (now ${newStrikes} strikes)`);
+    lookupUser(); // refresh
+}
+
+async function modBanUser() {
+    if (!selectedModUser) return;
+    const reason = document.getElementById("modReason").value.trim();
+    if (!reason) {
+        alert("Reason is required");
+        return;
+    }
+
+    const modName = currentProfile ? currentProfile.username : "Moderator";
+
+    const { error } = await sb
+        .from("profiles")
+        .update({
+            is_banned: true,
+            ban_reason: reason,
+            banned_by: modName,
+            banned_at: new Date().toISOString()
+        })
+        .eq("id", selectedModUser.id);
+
+    if (error) {
+        alert("Ban failed: " + error.message);
+        return;
+    }
+
+    await sb.from("user_notifications").insert({
+        user_id: selectedModUser.id,
+        type: "ban",
+        message: `${modName} has banned your account for:`,
+        from_user: modName,
+        reason: reason
+    });
+
+    alert(`Banned ${selectedModUser.username}`);
+    lookupUser();
+}
+
+async function modUnbanUser() {
+    if (!selectedModUser) return;
+
+    const { error } = await sb
+        .from("profiles")
+        .update({
+            is_banned: false,
+            ban_reason: null,
+            banned_by: null,
+            banned_at: null
+        })
+        .eq("id", selectedModUser.id);
+
+    if (error) {
+        alert("Unban failed: " + error.message);
+        return;
+    }
+
+    alert(`Unbanned ${selectedModUser.username}`);
+    lookupUser();
+}
+
+async function modGrantMod() {
+    if (!selectedModUser) return;
+    if (!isGrand && currentProfile.username !== "GRAND") {
+        // only GRAND can grant for safety, or allow any mod
+        // request says "you can give mod perms", so allow mods
+    }
+
+    const { error } = await sb
+        .from("profiles")
+        .update({ is_mod: true })
+        .eq("id", selectedModUser.id);
+
+    if (error) {
+        alert("Grant failed: " + error.message);
+        return;
+    }
+    alert(`Granted mod to ${selectedModUser.username}`);
+    lookupUser();
+}
+
+async function modRevokeMod() {
+    if (!selectedModUser) return;
+    if (selectedModUser.username === "GRAND") {
+        alert("Cannot revoke GRAND");
+        return;
+    }
+
+    const { error } = await sb
+        .from("profiles")
+        .update({ is_mod: false })
+        .eq("id", selectedModUser.id);
+
+    if (error) {
+        alert("Revoke failed: " + error.message);
+        return;
+    }
+    alert(`Revoked mod from ${selectedModUser.username}`);
+    lookupUser();
+}
+
+
+/* ============================================================
+   USER HISTORY (incl. soft-deleted)
+============================================================ */
+
+async function loadUserHistory(type) {
+    if (!selectedModUser) return;
+    const box = document.getElementById("modHistory");
+    box.innerHTML = "Loading...";
+
+    if (type === "posts") {
+        const { data, error } = await sb
+            .from("posts")
+            .select("id, title, community, score, created_at, deleted_at, body")
+            .eq("author_id", selectedModUser.id)
+            .order("created_at", { ascending: false })
+            .limit(50);
+
+        if (error) {
+            box.innerHTML = "Error: " + escapeHTML(error.message);
+            return;
+        }
+
+        if (!data || !data.length) {
+            box.innerHTML = "No posts found.";
+            return;
+        }
+
+        box.innerHTML = data.map(p => `
+            <div class="history-item ${p.deleted_at ? 'deleted' : ''}">
+                <b>#${p.id}</b> [${escapeHTML(p.community)}] ${escapeHTML(p.title)}
+                <br>
+                Score: ${p.score || 0} · ${formatDate(p.created_at)}
+                ${p.deleted_at ? ' · <span style="color:#b00000;">DELETED</span>' : ''}
+                <br>
+                <button style="font-size:7pt;padding:1px 4px;" onclick="modSoftDeletePostById(${p.id})">Soft Delete</button>
+            </div>
+        `).join("");
+    } else {
+        const { data, error } = await sb
+            .from("comments")
+            .select("id, post_id, body, created_at, deleted_at")
+            .eq("author_id", selectedModUser.id)
+            .order("created_at", { ascending: false })
+            .limit(50);
+
+        if (error) {
+            box.innerHTML = "Error: " + escapeHTML(error.message);
+            return;
+        }
+
+        if (!data || !data.length) {
+            box.innerHTML = "No comments found.";
+            return;
+        }
+
+        box.innerHTML = data.map(c => `
+            <div class="history-item ${c.deleted_at ? 'deleted' : ''}">
+                <b>Comment #${c.id}</b> on post ${c.post_id}
+                <br>
+                ${escapeHTML((c.body || "").slice(0, 120))}${(c.body || "").length > 120 ? "…" : ""}
+                <br>
+                ${formatDate(c.created_at)}
+                ${c.deleted_at ? ' · <span style="color:#b00000;">DELETED</span>' : ''}
+            </div>
+        `).join("");
+    }
+}
+
+
+/* ============================================================
+   SOFT DELETE POST
+============================================================ */
+
+async function modSoftDeletePost() {
+    const id = parseInt(document.getElementById("modDeletePostId").value, 10);
+    if (!id) {
+        alert("Enter a post ID");
+        return;
+    }
+    await modSoftDeletePostById(id);
+}
+
+async function modSoftDeletePostById(id) {
+    if (!confirm("Delete post #" + id + "?")) return;
+
+    // Prefer soft-delete
+    let { data, error } = await sb
+        .from("posts")
+        .update({ deleted_at: new Date().toISOString() })
+        .eq("id", id)
+        .select("id, deleted_at");
+
+    if (!error && data && data.length > 0) {
+        alert("Post soft-deleted");
+        if (selectedModUser) loadUserHistory("posts");
+        try { await loadPosts(); } catch (e) {}
+        return;
+    }
+
+    // Fallback: hard delete (works even without deleted_at column)
+    const hard = await sb
+        .from("posts")
+        .delete()
+        .eq("id", id)
+        .select("id");
+
+    if (hard.error) {
+        alert(
+            "Delete failed.\n\n" +
+            "Soft: " + (error ? error.message : "0 rows") + "\n" +
+            "Hard: " + hard.error.message + "\n\n" +
+            "Add RLS policies for mods (see SQL comments in this file)."
+        );
+        return;
+    }
+
+    if (!hard.data || hard.data.length === 0) {
+        alert(
+            "Delete blocked by RLS (0 rows).\n\n" +
+            "Run in Supabase SQL editor:\n\n" +
+            "CREATE POLICY \"mods_can_delete_posts\" ON posts\n" +
+            "FOR DELETE TO authenticated\n" +
+            "USING (\n" +
+            "  auth.uid() = author_id\n" +
+            "  OR EXISTS (\n" +
+            "    SELECT 1 FROM profiles\n" +
+            "    WHERE profiles.id = auth.uid()\n" +
+            "    AND (profiles.is_mod = true OR profiles.username = 'GRAND')\n" +
+            "  )\n" +
+            ");"
+        );
+        return;
+    }
+
+    alert("Post deleted");
+    if (selectedModUser) loadUserHistory("posts");
+    try { await loadPosts(); } catch (e) {}
+}
+
+
+
+/* ============================================================
+   NOTIFICATIONS (strike / ban messages to the user)
+============================================================ */
+
+async function checkUserNotifications() {
+    if (!currentUser) return;
+
+    const { data } = await sb
+        .from("user_notifications")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .is("read_at", null)
+        .order("created_at", { ascending: false })
+        .limit(1);
+
+    if (data && data.length) {
+        const n = data[0];
+        showModNotification(n);
+    }
+}
+
+function showModNotification(n) {
+    const overlay = document.getElementById("modNotification");
+    const title = document.getElementById("notifTitle");
+    const msg = document.getElementById("notifMessage");
+
+    title.textContent = n.type === "ban" ? "You have been banned" : "You have received a strike";
+    msg.innerHTML = `
+        <strong>${escapeHTML(n.from_user || "A moderator")}</strong>
+        has ${n.type === "ban" ? "banned" : "striked"} your account for:
+        <br><br>
+        <em>${escapeHTML(n.reason || n.message || "")}</em>
+    `;
+
+    overlay.style.display = "flex";
+    overlay.dataset.notifId = n.id;
+}
+
+async function showBanNotification(by, reason) {
+    const overlay = document.getElementById("modNotification");
+    const title = document.getElementById("notifTitle");
+    const msg = document.getElementById("notifMessage");
+
+    title.textContent = "You have been banned";
+    msg.innerHTML = `
+        <strong>${escapeHTML(by)}</strong>
+        has banned your account for:
+        <br><br>
+        <em>${escapeHTML(reason)}</em>
+    `;
+    overlay.style.display = "flex";
+    overlay.dataset.notifId = "";
+}
+
+async function dismissModNotification() {
+    const overlay = document.getElementById("modNotification");
+    const id = overlay.dataset.notifId;
+    if (id) {
+        await sb
+            .from("user_notifications")
+            .update({ read_at: new Date().toISOString() })
+            .eq("id", id);
+    }
+    overlay.style.display = "none";
+}
+
+
+/* ============================================================
    START
 ============================================================ */
 
@@ -3097,16 +3870,12 @@ sb.auth.onAuthStateChange(
 
     await loadUser();
 
-    currentCategory =
-        "all";
-
-    await loadPosts({
-        community: "all"
-    });
+    await loadPosts();
 
 })();
 
 </script>
+
 
 </body>
 </html>
