@@ -1271,7 +1271,7 @@ async function loadUser() {
 
     if (currentUser) {
 
-        // Try full select first (mod columns). If columns don't exist yet, fall back.
+        // Prefer full select (includes is_mod and ban fields)
         let profile = null;
         let { data, error } = await sb
             .from("profiles")
@@ -1293,13 +1293,24 @@ async function loadUser() {
             .maybeSingle();
 
         if (error) {
-            // Columns probably missing — fall back to basic fields
-            const fallback = await sb
+            // Full select failed (columns may be missing). Fall back stepwise.
+            const basic = await sb
                 .from("profiles")
-                .select("id, username, developer")
+                .select("id, username, developer, is_mod")
                 .eq("id", currentUser.id)
                 .maybeSingle();
-            profile = fallback.data || null;
+
+            if (basic.error) {
+                // Even is_mod column missing — last resort
+                const minimal = await sb
+                    .from("profiles")
+                    .select("id, username, developer")
+                    .eq("id", currentUser.id)
+                    .maybeSingle();
+                profile = minimal.data || null;
+            } else {
+                profile = basic.data || null;
+            }
         } else {
             profile = data || null;
         }
@@ -1307,8 +1318,12 @@ async function loadUser() {
         currentProfile = profile;
 
         if (currentProfile) {
+            // GRAND is always treated as mod for convenience
             isGrand = currentProfile.username === "GRAND";
-            isMod = isGrand || currentProfile.is_mod === true;
+
+            // PRIMARY rule: anyone with is_mod === true is a mod
+            // GRAND also counts even if the flag is false/missing
+            isMod = (currentProfile.is_mod === true) || isGrand;
 
             // If banned, force logout and show message
             if (currentProfile.is_banned) {
@@ -1337,6 +1352,7 @@ async function loadUser() {
         await loadLocks();
     } catch (e) {}
 }
+
 
 
 
