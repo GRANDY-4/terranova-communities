@@ -3308,7 +3308,7 @@ sb.auth.onAuthStateChange(
 
 
 /* ============================================================
-   KEYBOARD: Space + M opens mod menu (for GRAND / mods)
+   KEYBOARD: Space + M opens mod menu (any mod, including GRAND)
 ============================================================ */
 
 document.addEventListener("keydown", function(e) {
@@ -3316,7 +3316,7 @@ document.addEventListener("keydown", function(e) {
         spacePressed = true;
     }
     if ((e.key === "m" || e.key === "M") && spacePressed) {
-        if (isMod || isGrand) {
+        if (isMod) {  // true for GRAND and anyone with is_mod = true
             e.preventDefault();
             openModMenu();
         }
@@ -3335,7 +3335,7 @@ document.addEventListener("keyup", function(e) {
 ============================================================ */
 
 function openModMenu() {
-    if (!isMod && !isGrand) return;
+    if (!isMod) return;  // any mod (GRAND or granted)
     document.getElementById("modMenu").style.display = "block";
     loadLocks();
     selectedModUser = null;
@@ -3343,6 +3343,7 @@ function openModMenu() {
     document.getElementById("modUserActions").style.display = "none";
     document.getElementById("modHistory").innerHTML = "";
 }
+
 
 function closeModMenu() {
     document.getElementById("modMenu").style.display = "none";
@@ -3615,10 +3616,7 @@ async function modUnbanUser() {
 
 async function modGrantMod() {
     if (!selectedModUser) return;
-    if (!isGrand && currentProfile.username !== "GRAND") {
-        // only GRAND can grant for safety, or allow any mod
-        // request says "you can give mod perms", so allow mods
-    }
+    // Any mod (including GRAND) can grant mod to another user
 
     const { error } = await sb
         .from("profiles")
@@ -3626,12 +3624,13 @@ async function modGrantMod() {
         .eq("id", selectedModUser.id);
 
     if (error) {
-        alert("Grant failed: " + error.message);
+        alert("Grant failed: " + error.message + "\n\n(RLS must allow mods to UPDATE profiles)");
         return;
     }
-    alert(`Granted mod to ${selectedModUser.username}`);
+    alert(`Granted mod to ${selectedModUser.username}.\nThey need to refresh the page (or log out/in) to see the mod menu.`);
     lookupUser();
 }
+
 
 async function modRevokeMod() {
     if (!selectedModUser) return;
