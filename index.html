@@ -464,7 +464,7 @@ button:hover {
                 id="searchInput"
                 type="text"
                 placeholder="search"
-                onkeydown="if(event.key==='Enter') searchPosts()"
+                onkeydown="if(event.key === 'Enter') searchPosts()"
             >
 
             <button onclick="searchPosts()">
@@ -487,6 +487,10 @@ button:hover {
 
 
     <div id="communitybar">
+
+        <a href="#" onclick="filterCommunity('all'); return false;">
+            all
+        </a>
 
         <a href="#" onclick="filterCommunity('Terranova'); return false;">
             Terranova
@@ -521,7 +525,7 @@ button:hover {
 
             <div id="posthead">
 
-                Terranova Communities
+                All posts
 
                 &nbsp;|&nbsp;
 
@@ -603,6 +607,10 @@ button:hover {
 
                     <a href="#" onclick="filterCommunity('Development'); return false;">
                         /Development
+                    </a><br>
+
+                    <a href="#" onclick="filterCommunity('Screenshots'); return false;">
+                        /Screenshots
                     </a><br>
 
                     <a href="#" onclick="filterCommunity('Suggestions'); return false;">
@@ -771,14 +779,32 @@ button:hover {
 
             <select id="postCommunity">
 
-                <option>Terranova</option>
-                <option>Builds</option>
-                <option>Survival</option>
-                <option>Development</option>
-                <option>Screenshots</option>
-                <option>Suggestions</option>
+                <option value="Terranova">
+                    Terranova
+                </option>
+
+                <option value="Builds">
+                    Builds
+                </option>
+
+                <option value="Survival">
+                    Survival
+                </option>
+
+                <option value="Development">
+                    Development
+                </option>
+
+                <option value="Screenshots">
+                    Screenshots
+                </option>
+
+                <option value="Suggestions">
+                    Suggestions
+                </option>
 
             </select>
+
         </label>
 
 
@@ -812,6 +838,7 @@ button:hover {
                 type="file"
                 accept="image/png,image/jpeg,image/gif,image/webp"
             >
+
         </label>
 
 
@@ -843,7 +870,6 @@ button:hover {
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
 <script>
 
 /* ============================================================
@@ -869,6 +895,8 @@ const sb =
 
 let currentUser = null;
 let currentProfile = null;
+
+let currentCategory = "all";
 
 
 /* ============================================================
@@ -908,11 +936,8 @@ function escapeHTML(value) {
 
 function formatDate(date) {
 
-    const d =
-        new Date(date);
-
-    const now =
-        new Date();
+    const d = new Date(date);
+    const now = new Date();
 
     const seconds =
         Math.floor(
@@ -943,7 +968,7 @@ function formatDate(date) {
 
 
 /* ============================================================
-   LOAD CURRENT USER
+   CURRENT USER
 ============================================================ */
 
 async function loadUser() {
@@ -1057,33 +1082,24 @@ function updateAccountArea() {
    AUTH
 ============================================================ */
 
-let authMode =
-    "login";
+let authMode = "login";
 
 
 function openAuth(mode) {
 
-    authMode =
-        mode;
-
+    authMode = mode;
 
     document.getElementById(
         "modalBackground"
-    ).style.display =
-        "block";
-
+    ).style.display = "block";
 
     document.getElementById(
         "authModal"
-    ).style.display =
-        "block";
-
+    ).style.display = "block";
 
     document.getElementById(
         "postModal"
-    ).style.display =
-        "none";
-
+    ).style.display = "none";
 
     updateAuthModal();
 
@@ -1130,8 +1146,7 @@ function updateAuthModal() {
 
     document.getElementById(
         "authError"
-    ).textContent =
-        "";
+    ).textContent = "";
 
 }
 
@@ -1159,21 +1174,17 @@ async function submitAuth() {
             "authEmail"
         ).value.trim();
 
-
     const password =
         document.getElementById(
             "authPassword"
         ).value;
-
 
     const errorBox =
         document.getElementById(
             "authError"
         );
 
-
-    errorBox.textContent =
-        "";
+    errorBox.textContent = "";
 
 
     if (!email || !password) {
@@ -1185,8 +1196,6 @@ async function submitAuth() {
 
     }
 
-
-    /* LOGIN */
 
     if (authMode === "login") {
 
@@ -1213,14 +1222,15 @@ async function submitAuth() {
         closeModal();
 
         await loadUser();
-        await loadPosts();
+
+        await loadPosts({
+            community: currentCategory
+        });
 
         return;
 
     }
 
-
-    /* SIGNUP */
 
     const username =
         document.getElementById(
@@ -1241,10 +1251,6 @@ async function submitAuth() {
 
     }
 
-
-    /*
-        Check if username already exists.
-    */
 
     const {
         data: existing,
@@ -1279,11 +1285,6 @@ async function submitAuth() {
     }
 
 
-    /*
-        GRAND is reserved.
-        The SQL database should also enforce this.
-    */
-
     const {
         data,
         error
@@ -1317,7 +1318,9 @@ async function submitAuth() {
 
         closeModal();
 
-        await loadPosts();
+        await loadPosts({
+            community: currentCategory
+        });
 
         return;
 
@@ -1338,15 +1341,65 @@ async function logout() {
 
     await sb.auth.signOut();
 
-    currentUser =
-        null;
-
-    currentProfile =
-        null;
+    currentUser = null;
+    currentProfile = null;
 
     updateAccountArea();
 
-    await loadPosts();
+    await loadPosts({
+        community: currentCategory
+    });
+
+}
+
+
+/* ============================================================
+   POST HEAD
+============================================================ */
+
+function updatePostHead(title) {
+
+    document.getElementById(
+        "posthead"
+    ).innerHTML = `
+
+        ${escapeHTML(title)}
+
+        &nbsp;|&nbsp;
+
+        <a
+            href="#"
+            onclick="
+                loadPosts({
+                    community: currentCategory
+                });
+                return false;
+            "
+        >
+            new
+        </a>
+
+        &nbsp;|&nbsp;
+
+        <a
+            href="#"
+            onclick="
+                sortTop();
+                return false;
+            "
+        >
+            top
+        </a>
+
+        <button
+            class="greenbutton"
+            style="float:right;"
+            onclick="openPostModal()"
+        >
+            submit a post
+        </button>
+
+    `;
 
 }
 
@@ -1356,6 +1409,17 @@ async function logout() {
 ============================================================ */
 
 async function loadPosts(options = {}) {
+
+    if (
+        Object.prototype.hasOwnProperty.call(
+            options,
+            "community"
+        )
+    ) {
+        currentCategory =
+            options.community || "all";
+    }
+
 
     const container =
         document.getElementById(
@@ -1387,22 +1451,37 @@ async function loadPosts(options = {}) {
             `);
 
 
-    if (options.community) {
+    /*
+        THIS IS THE CATEGORY FILTER.
+
+        "all" gets everything.
+
+        Anything else gets ONLY posts
+        whose community exactly matches
+        the selected category.
+    */
+
+    if (
+        currentCategory !== "all"
+    ) {
 
         query =
             query.eq(
                 "community",
-                options.community
+                currentCategory
             );
 
     }
 
 
+    /*
+        SEARCH
+    */
+
     if (options.search) {
 
         const q =
             options.search.trim();
-
 
         if (q) {
 
@@ -1415,6 +1494,10 @@ async function loadPosts(options = {}) {
 
     }
 
+
+    /*
+        SORT
+    */
 
     if (options.top) {
 
@@ -1488,7 +1571,9 @@ async function loadPosts(options = {}) {
 
 
     /*
-        Get every author ID.
+        Fetch authors separately.
+        This avoids the ambiguous
+        profiles relationship.
     */
 
     const authorIDs = [
@@ -1500,11 +1585,6 @@ async function loadPosts(options = {}) {
         )
     ];
 
-
-    /*
-        Fetch profiles separately.
-        This is the important fix.
-    */
 
     const {
         data: profiles,
@@ -1548,19 +1628,16 @@ async function loadPosts(options = {}) {
     const profileMap = {};
 
 
-    (profiles || [])
-        .forEach(profile => {
+    (profiles || []).forEach(
+        profile => {
 
             profileMap[
                 profile.id
             ] = profile;
 
-        });
+        }
+    );
 
-
-    /*
-        Attach profile to each post.
-    */
 
     posts.forEach(post => {
 
@@ -1570,6 +1647,32 @@ async function loadPosts(options = {}) {
             ] || {};
 
     });
+
+
+    const categoryNames = {
+
+        all: "All posts",
+
+        Terranova: "Terranova",
+
+        Builds: "Builds",
+
+        Survival: "Survival",
+
+        Development: "Development",
+
+        Screenshots: "Screenshots",
+
+        Suggestions: "Suggestions"
+
+    };
+
+
+    updatePostHead(
+        categoryNames[
+            currentCategory
+        ] || currentCategory
+    );
 
 
     renderPosts(posts);
@@ -1591,15 +1694,22 @@ function renderPosts(posts) {
 
     if (!posts.length) {
 
+        const categoryText =
+            currentCategory === "all"
+                ? "this community"
+                : "/" + currentCategory;
+
+
         container.innerHTML = `
 
             <div class="empty">
 
                 <b>
-                    There aren't any posts yet.
+                    No posts here yet.
                 </b>
 
-                Be the first to start a discussion.
+                There aren't any posts in
+                ${escapeHTML(categoryText)}.
 
                 <br><br>
 
@@ -1625,11 +1735,9 @@ function renderPosts(posts) {
             const profile =
                 post.profiles || {};
 
-
             const username =
                 profile.username ||
                 "unknown";
-
 
             const developer =
                 profile.developer === true;
@@ -1783,6 +1891,101 @@ function renderPosts(posts) {
 
 
 /* ============================================================
+   CATEGORY FILTER
+============================================================ */
+
+async function filterCommunity(
+    category
+) {
+
+    currentCategory =
+        category;
+
+
+    document.getElementById(
+        "searchInput"
+    ).value = "";
+
+
+    await loadPosts({
+
+        community:
+            category
+
+    });
+
+}
+
+
+/* ============================================================
+   TOP
+============================================================ */
+
+async function sortTop() {
+
+    await loadPosts({
+
+        community:
+            currentCategory,
+
+        top: true
+
+    });
+
+}
+
+
+/* ============================================================
+   HOME
+============================================================ */
+
+async function showHome() {
+
+    currentCategory =
+        "all";
+
+
+    document.getElementById(
+        "searchInput"
+    ).value = "";
+
+
+    await loadPosts({
+
+        community:
+            "all"
+
+    });
+
+}
+
+
+/* ============================================================
+   SEARCH
+============================================================ */
+
+async function searchPosts() {
+
+    const query =
+        document.getElementById(
+            "searchInput"
+        ).value.trim();
+
+
+    await loadPosts({
+
+        community:
+            currentCategory,
+
+        search:
+            query
+
+    });
+
+}
+
+
+/* ============================================================
    POST MODAL
 ============================================================ */
 
@@ -1799,26 +2002,56 @@ function openPostModal() {
 
     document.getElementById(
         "modalBackground"
-    ).style.display =
-        "block";
+    ).style.display = "block";
 
 
     document.getElementById(
         "authModal"
-    ).style.display =
-        "none";
+    ).style.display = "none";
 
 
     document.getElementById(
         "postModal"
-    ).style.display =
-        "block";
+    ).style.display = "block";
 
 
     document.getElementById(
         "postError"
-    ).textContent =
-        "";
+    ).textContent = "";
+
+
+    /*
+        If we're inside a category,
+        automatically select that category.
+    */
+
+    if (
+        currentCategory !== "all"
+    ) {
+
+        const select =
+            document.getElementById(
+                "postCommunity"
+            );
+
+
+        const option =
+            [...select.options]
+                .find(
+                    o =>
+                        o.value ===
+                        currentCategory
+                );
+
+
+        if (option) {
+
+            select.value =
+                currentCategory;
+
+        }
+
+    }
 
 }
 
@@ -1880,8 +2113,7 @@ async function submitPost() {
         );
 
 
-    errorBox.textContent =
-        "";
+    errorBox.textContent = "";
 
 
     if (!title) {
@@ -1894,11 +2126,12 @@ async function submitPost() {
     }
 
 
-    let imageURL =
-        null;
+    let imageURL = null;
 
 
-    /* IMAGE */
+    /*
+        IMAGE UPLOAD
+    */
 
     if (image) {
 
@@ -1993,7 +2226,9 @@ async function submitPost() {
     }
 
 
-    /* POST */
+    /*
+        INSERT POST
+    */
 
     const {
         error
@@ -2014,7 +2249,10 @@ async function submitPost() {
                 body || null,
 
             image_url:
-                imageURL
+                imageURL,
+
+            score:
+                0
 
         });
 
@@ -2046,7 +2284,17 @@ async function submitPost() {
 
     closeModal();
 
-    await loadPosts();
+
+    /*
+        Stay in the category we're currently viewing.
+    */
+
+    await loadPosts({
+
+        community:
+            currentCategory
+
+    });
 
 }
 
@@ -2100,8 +2348,7 @@ async function vote(
     if (existing) {
 
         if (
-            existing.vote ===
-            amount
+            existing.vote === amount
         ) {
 
             await sb
@@ -2154,10 +2401,6 @@ async function vote(
     }
 
 
-    /*
-        Recalculate score.
-    */
-
     const {
         data: votes
     } = await sb
@@ -2172,8 +2415,11 @@ async function vote(
     const score =
         (votes || [])
             .reduce(
-                (total, v) =>
-                    total + v.vote,
+                (
+                    total,
+                    vote
+                ) =>
+                    total + vote.vote,
                 0
             );
 
@@ -2189,13 +2435,18 @@ async function vote(
         );
 
 
-    await loadPosts();
+    await loadPosts({
+
+        community:
+            currentCategory
+
+    });
 
 }
 
 
 /* ============================================================
-   DELETE
+   DELETE POST
 ============================================================ */
 
 async function deletePost(id) {
@@ -2239,78 +2490,12 @@ async function deletePost(id) {
     }
 
 
-    await loadPosts();
-
-}
-
-
-/* ============================================================
-   SEARCH
-============================================================ */
-
-async function searchPosts() {
-
-    const query =
-        document.getElementById(
-            "searchInput"
-        ).value.trim();
-
-
-    if (!query) {
-
-        await loadPosts();
-
-        return;
-
-    }
-
-
     await loadPosts({
-        search: query
+
+        community:
+            currentCategory
+
     });
-
-}
-
-
-/* ============================================================
-   COMMUNITY
-============================================================ */
-
-async function filterCommunity(
-    name
-) {
-
-    await loadPosts({
-        community: name
-    });
-
-}
-
-
-/* ============================================================
-   TOP
-============================================================ */
-
-async function sortTop() {
-
-    await loadPosts({
-        top: true
-    });
-
-}
-
-
-/* ============================================================
-   HOME
-============================================================ */
-
-async function showHome() {
-
-    document.getElementById(
-        "searchInput"
-    ).value = "";
-
-    await loadPosts();
 
 }
 
@@ -2320,10 +2505,6 @@ async function showHome() {
 ============================================================ */
 
 async function openPost(id) {
-
-    /*
-        Fetch the post WITHOUT profiles().
-    */
 
     const {
         data: post,
@@ -2361,7 +2542,7 @@ async function openPost(id) {
 
 
     /*
-        Fetch the post author separately.
+        Author profile separately.
     */
 
     const {
@@ -2381,7 +2562,7 @@ async function openPost(id) {
 
 
     /*
-        Fetch comments without profile embedding.
+        Comments.
     */
 
     const {
@@ -2420,7 +2601,7 @@ async function openPost(id) {
 
 
     /*
-        Fetch comment profiles separately.
+        Comment profiles separately.
     */
 
     const commentAuthorIDs = [
@@ -2438,7 +2619,7 @@ async function openPost(id) {
 
 
     if (
-        commentAuthorIDs.length
+        commentAuthorIDs.length > 0
     ) {
 
         const {
@@ -2483,7 +2664,69 @@ async function openPost(id) {
 
     let html = `
 
+        <div
+            style="
+                margin-bottom:8px;
+                font-size:8pt;
+            "
+        >
+
+            <a
+                href="#"
+                onclick="
+                    filterCommunity(
+                        '${escapeHTML(
+                            post.community
+                        )}'
+                    );
+                    return false;
+                "
+            >
+                /${escapeHTML(
+                    post.community
+                )}
+            </a>
+
+            &nbsp;·&nbsp;
+
+            <a
+                href="#"
+                onclick="
+                    loadPosts({
+                        community:
+                            currentCategory
+                    });
+                    return false;
+                "
+            >
+                back
+            </a>
+
+        </div>
+
+
         <div class="post">
+
+            <div class="vote">
+
+                <button
+                    onclick="vote(${post.id}, 1)"
+                >
+                    ▲
+                </button>
+
+                <div class="score">
+                    ${post.score || 0}
+                </div>
+
+                <button
+                    onclick="vote(${post.id}, -1)"
+                >
+                    ▼
+                </button>
+
+            </div>
+
 
             <div class="postbody">
 
@@ -2492,6 +2735,7 @@ async function openPost(id) {
                         post.title
                     )}
                 </div>
+
 
                 <div class="meta">
 
@@ -2684,10 +2928,6 @@ async function openPost(id) {
     }
 
 
-    /*
-        Reply box.
-    */
-
     if (currentUser) {
 
         html += `
@@ -2857,7 +3097,12 @@ sb.auth.onAuthStateChange(
 
     await loadUser();
 
-    await loadPosts();
+    currentCategory =
+        "all";
+
+    await loadPosts({
+        community: "all"
+    });
 
 })();
 
