@@ -1,0 +1,2867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Terranova Communities</title>
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #fff;
+    color: #222;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+}
+
+#top {
+    background: #40D664;
+    border-bottom: 1px solid #228d3d;
+    min-height: 34px;
+    line-height: 34px;
+    padding: 0 10px;
+}
+
+#top a {
+    color: #003b12;
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 18px;
+}
+
+#top a:hover {
+    text-decoration: underline;
+}
+
+#accountArea {
+    float: right;
+    font-size: 8pt;
+    font-weight: normal;
+}
+
+#accountArea a {
+    margin: 0;
+}
+
+#page {
+    width: 960px;
+    margin: 0 auto;
+}
+
+#title {
+    padding: 18px 5px 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+#title h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: normal;
+}
+
+#title h1 a {
+    color: #228d3d;
+    text-decoration: none;
+}
+
+#title p {
+    margin: 5px 0 0;
+    font-size: 9pt;
+    color: #666;
+}
+
+#search {
+    float: right;
+}
+
+#search input {
+    width: 170px;
+    border: 1px solid #999;
+    padding: 4px;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 8pt;
+}
+
+button {
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 8pt;
+    background: #eee;
+    border: 1px solid #999;
+    padding: 3px 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ddd;
+}
+
+.greenbutton {
+    background: #40D664;
+    border-color: #228d3d;
+    color: #003b12;
+    font-weight: bold;
+}
+
+.greenbutton:hover {
+    background: #78F096;
+}
+
+#communitybar {
+    margin-top: 12px;
+    background: #78F096;
+    border: 1px solid #40D664;
+    padding: 5px 7px;
+    font-size: 9pt;
+}
+
+#communitybar a {
+    color: #075f1e;
+    text-decoration: none;
+    margin-right: 15px;
+}
+
+#communitybar a:hover {
+    text-decoration: underline;
+}
+
+#columns {
+    display: table;
+    width: 100%;
+    margin-top: 12px;
+}
+
+#main {
+    display: table-cell;
+    width: 700px;
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+#sidebar {
+    display: table-cell;
+    width: 230px;
+    vertical-align: top;
+}
+
+#posthead {
+    background: #eee;
+    border: 1px solid #ccc;
+    padding: 5px 7px;
+    font-size: 8pt;
+    color: #444;
+}
+
+#posthead a {
+    color: #168638;
+}
+
+.post {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 9px;
+    min-height: 60px;
+}
+
+.post:hover {
+    background: #fbfffb;
+}
+
+.vote {
+    float: left;
+    width: 35px;
+    text-align: center;
+    color: #777;
+    font-size: 9px;
+}
+
+.vote button {
+    display: block;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    width: 30px;
+    color: #777;
+    font-size: 15px;
+}
+
+.vote button:hover {
+    color: #228d3d;
+    background: transparent;
+}
+
+.score {
+    font-size: 9px;
+}
+
+.postbody {
+    margin-left: 38px;
+}
+
+.posttitle {
+    font-size: 11pt;
+    color: #168638;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.posttitle:hover {
+    text-decoration: underline;
+}
+
+.meta {
+    margin-top: 3px;
+    color: #888;
+    font-size: 7.5pt;
+}
+
+.username {
+    color: #168638;
+    font-weight: bold;
+}
+
+.developer {
+    background: #40D664;
+    color: #003b12;
+    border: 1px solid #228d3d;
+    padding: 1px 4px;
+    margin-left: 3px;
+    font-size: 7px;
+    font-weight: bold;
+}
+
+.op {
+    background: #78F096;
+    color: #075f1e;
+    border: 1px solid #40D664;
+    padding: 1px 3px;
+    margin-left: 3px;
+    font-size: 7px;
+    font-weight: bold;
+}
+
+.posttext {
+    margin-top: 8px;
+    font-size: 9pt;
+    white-space: pre-wrap;
+    line-height: 1.45;
+}
+
+.postimage {
+    max-width: 100%;
+    max-height: 500px;
+    margin-top: 9px;
+    border: 1px solid #ccc;
+}
+
+.postactions {
+    margin-top: 9px;
+    font-size: 7.5pt;
+    color: #888;
+}
+
+.postactions a {
+    color: #168638;
+    cursor: pointer;
+    margin-right: 12px;
+}
+
+.postactions a:hover {
+    text-decoration: underline;
+}
+
+.box {
+    border: 1px solid #ccc;
+    margin-bottom: 12px;
+    background: #fafafa;
+}
+
+.box-title {
+    background: #78F096;
+    border-bottom: 1px solid #40D664;
+    padding: 5px 7px;
+    color: #075f1e;
+    font-size: 9pt;
+    font-weight: bold;
+}
+
+.box-content {
+    padding: 8px;
+    font-size: 8pt;
+    line-height: 1.5;
+}
+
+.box-content a {
+    color: #168638;
+}
+
+#modalBackground {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 100;
+}
+
+.modal {
+    width: 420px;
+    margin: 100px auto;
+    background: white;
+    border: 1px solid #555;
+    box-shadow: 0 3px 12px rgba(0,0,0,.3);
+    padding: 15px;
+}
+
+.modal h2 {
+    margin: 0 0 15px;
+    font-size: 15px;
+    font-weight: normal;
+    color: #333;
+}
+
+.modal label {
+    display: block;
+    margin-top: 10px;
+    font-size: 8pt;
+    color: #555;
+}
+
+.modal input,
+.modal textarea,
+.modal select {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 4px;
+    padding: 5px;
+    border: 1px solid #999;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 9pt;
+}
+
+.modal textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.modalButtons {
+    margin-top: 15px;
+    text-align: right;
+}
+
+.error {
+    color: #b00000;
+    margin-top: 8px;
+    font-size: 8pt;
+}
+
+.empty {
+    border: 1px solid #ddd;
+    padding: 45px 15px;
+    text-align: center;
+    color: #777;
+}
+
+.empty b {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.comment {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+}
+
+.commentbody {
+    margin-left: 10px;
+}
+
+#footer {
+    clear: both;
+    border-top: 1px solid #ccc;
+    margin-top: 30px;
+    padding: 12px 5px;
+    color: #888;
+    font-size: 8pt;
+}
+
+#footer a {
+    color: #228d3d;
+}
+
+@media(max-width: 980px) {
+    #page {
+        width: auto;
+        margin: 0 10px;
+    }
+}
+
+@media(max-width: 650px) {
+    #sidebar {
+        display: none;
+    }
+
+    #main {
+        display: block;
+        width: 100%;
+        padding: 0;
+    }
+
+    #search {
+        display: none;
+    }
+
+    .modal {
+        width: auto;
+        margin: 50px 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="top">
+
+    <a href="#" onclick="showHome(); return false;">
+        Terranova Communities
+    </a>
+
+    <a href="#" onclick="showHome(); return false;">
+        home
+    </a>
+
+    <a href="#" onclick="loadPosts(); return false;">
+        new
+    </a>
+
+    <span id="accountArea">
+        <a href="#" onclick="openAuth('login'); return false;">
+            login
+        </a>
+    </span>
+
+</div>
+
+
+<div id="page">
+
+    <div id="title">
+
+        <div id="search">
+
+            <input
+                id="searchInput"
+                type="text"
+                placeholder="search"
+                onkeydown="if(event.key==='Enter') searchPosts()"
+            >
+
+            <button onclick="searchPosts()">
+                search
+            </button>
+
+        </div>
+
+        <h1>
+            <a href="#" onclick="showHome(); return false;">
+                Terranova Communities
+            </a>
+        </h1>
+
+        <p>
+            The community for Terranova players and developers.
+        </p>
+
+    </div>
+
+
+    <div id="communitybar">
+
+        <a href="#" onclick="filterCommunity('Terranova'); return false;">
+            Terranova
+        </a>
+
+        <a href="#" onclick="filterCommunity('Builds'); return false;">
+            Builds
+        </a>
+
+        <a href="#" onclick="filterCommunity('Survival'); return false;">
+            Survival
+        </a>
+
+        <a href="#" onclick="filterCommunity('Development'); return false;">
+            Development
+        </a>
+
+        <a href="#" onclick="filterCommunity('Screenshots'); return false;">
+            Screenshots
+        </a>
+
+        <a href="#" onclick="filterCommunity('Suggestions'); return false;">
+            Suggestions
+        </a>
+
+    </div>
+
+
+    <div id="columns">
+
+        <div id="main">
+
+            <div id="posthead">
+
+                Terranova Communities
+
+                &nbsp;|&nbsp;
+
+                <a href="#" onclick="loadPosts(); return false;">
+                    new
+                </a>
+
+                &nbsp;|&nbsp;
+
+                <a href="#" onclick="sortTop(); return false;">
+                    top
+                </a>
+
+                <button
+                    class="greenbutton"
+                    style="float:right;"
+                    onclick="openPostModal()"
+                >
+                    submit a post
+                </button>
+
+            </div>
+
+
+            <div id="posts">
+                Loading...
+            </div>
+
+        </div>
+
+
+        <div id="sidebar">
+
+            <div class="box">
+
+                <div class="box-title">
+                    Terranova Communities
+                </div>
+
+                <div class="box-content">
+
+                    A place for Terranova players,
+                    builders and developers to talk
+                    about the game.
+
+                    <br><br>
+
+                    <button
+                        class="greenbutton"
+                        onclick="openPostModal()"
+                    >
+                        submit a post
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="box">
+
+                <div class="box-title">
+                    Communities
+                </div>
+
+                <div class="box-content">
+
+                    <a href="#" onclick="filterCommunity('Terranova'); return false;">
+                        /Terranova
+                    </a><br>
+
+                    <a href="#" onclick="filterCommunity('Builds'); return false;">
+                        /Builds
+                    </a><br>
+
+                    <a href="#" onclick="filterCommunity('Survival'); return false;">
+                        /Survival
+                    </a><br>
+
+                    <a href="#" onclick="filterCommunity('Development'); return false;">
+                        /Development
+                    </a><br>
+
+                    <a href="#" onclick="filterCommunity('Suggestions'); return false;">
+                        /Suggestions
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="box">
+
+                <div class="box-title">
+                    About
+                </div>
+
+                <div class="box-content">
+
+                    Terranova Communities is a
+                    community site for Terranova.
+
+                    <br><br>
+
+                    <a href="#">community rules</a>
+                    <br>
+
+                    <a href="#">about</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div id="footer">
+
+        Terranova Communities
+        &nbsp;·&nbsp;
+        <a href="#">about</a>
+        &nbsp;·&nbsp;
+        <a href="#">rules</a>
+        &nbsp;·&nbsp;
+        <a href="#">contact</a>
+
+        <br><br>
+
+        © 2026 Terranova Communities
+
+    </div>
+
+</div>
+
+
+<!-- MODALS -->
+
+<div id="modalBackground">
+
+
+    <!-- AUTH -->
+
+    <div class="modal" id="authModal">
+
+        <h2 id="authTitle">
+            Log in
+        </h2>
+
+        <label>
+            Email
+
+            <input
+                id="authEmail"
+                type="email"
+                autocomplete="email"
+            >
+        </label>
+
+        <label>
+            Password
+
+            <input
+                id="authPassword"
+                type="password"
+                autocomplete="current-password"
+            >
+        </label>
+
+
+        <div id="usernameField" style="display:none;">
+
+            <label>
+                Username
+
+                <input
+                    id="authUsername"
+                    maxlength="24"
+                    placeholder="letters, numbers and _"
+                >
+            </label>
+
+        </div>
+
+
+        <div
+            id="authError"
+            class="error"
+        ></div>
+
+
+        <div class="modalButtons">
+
+            <button onclick="closeModal()">
+                cancel
+            </button>
+
+            <button
+                id="authButton"
+                class="greenbutton"
+                onclick="submitAuth()"
+            >
+                Log in
+            </button>
+
+        </div>
+
+
+        <div
+            style="
+                margin-top:12px;
+                font-size:8pt;
+                color:#777;
+                text-align:center;
+            "
+        >
+
+            <a
+                href="#"
+                id="authSwitch"
+                onclick="switchAuth(); return false;"
+            >
+                Need an account? Sign up
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- POST -->
+
+    <div
+        class="modal"
+        id="postModal"
+        style="display:none;"
+    >
+
+        <h2>
+            Submit a post
+        </h2>
+
+        <label>
+            Community
+
+            <select id="postCommunity">
+
+                <option>Terranova</option>
+                <option>Builds</option>
+                <option>Survival</option>
+                <option>Development</option>
+                <option>Screenshots</option>
+                <option>Suggestions</option>
+
+            </select>
+        </label>
+
+
+        <label>
+            Title
+
+            <input
+                id="postTitle"
+                maxlength="300"
+                placeholder="title"
+            >
+        </label>
+
+
+        <label>
+            Text
+
+            <textarea
+                id="postBody"
+                placeholder="text (optional)"
+            ></textarea>
+
+        </label>
+
+
+        <label>
+            Image
+
+            <input
+                id="postImage"
+                type="file"
+                accept="image/png,image/jpeg,image/gif,image/webp"
+            >
+        </label>
+
+
+        <div
+            id="postError"
+            class="error"
+        ></div>
+
+
+        <div class="modalButtons">
+
+            <button onclick="closeModal()">
+                cancel
+            </button>
+
+            <button
+                class="greenbutton"
+                onclick="submitPost()"
+            >
+                submit
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* ============================================================
+   SUPABASE
+============================================================ */
+
+const SUPABASE_URL =
+    "https://wuhhmxckwwioiayqpevt.supabase.co";
+
+const SUPABASE_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind1aGhteGNrd3dpb2lheXFwZXZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1Mzk1ODcsImV4cCI6MjEwMjExNTU4N30.7qvOzncuo8v-I_y5QtCIt9m7TzZ3_Fs2DGHFH4mLgLM";
+
+const sb =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* ============================================================
+   STATE
+============================================================ */
+
+let currentUser = null;
+let currentProfile = null;
+
+
+/* ============================================================
+   ESCAPE HTML
+============================================================ */
+
+function escapeHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
+
+    return String(value).replace(
+        /[&<>"']/g,
+        function(c) {
+
+            return {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+            }[c];
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   DATE
+============================================================ */
+
+function formatDate(date) {
+
+    const d =
+        new Date(date);
+
+    const now =
+        new Date();
+
+    const seconds =
+        Math.floor(
+            (now - d) / 1000
+        );
+
+    if (seconds < 60)
+        return seconds + " seconds ago";
+
+    if (seconds < 3600)
+        return Math.floor(
+            seconds / 60
+        ) + " minutes ago";
+
+    if (seconds < 86400)
+        return Math.floor(
+            seconds / 3600
+        ) + " hours ago";
+
+    if (seconds < 604800)
+        return Math.floor(
+            seconds / 86400
+        ) + " days ago";
+
+    return d.toLocaleDateString();
+
+}
+
+
+/* ============================================================
+   LOAD CURRENT USER
+============================================================ */
+
+async function loadUser() {
+
+    const {
+        data: {
+            user
+        }
+    } = await sb.auth.getUser();
+
+    currentUser =
+        user || null;
+
+    currentProfile =
+        null;
+
+
+    if (currentUser) {
+
+        const {
+            data: profile
+        } = await sb
+            .from("profiles")
+            .select(`
+                id,
+                username,
+                developer
+            `)
+            .eq(
+                "id",
+                currentUser.id
+            )
+            .maybeSingle();
+
+        currentProfile =
+            profile || null;
+
+    }
+
+
+    updateAccountArea();
+
+}
+
+
+/* ============================================================
+   ACCOUNT BAR
+============================================================ */
+
+function updateAccountArea() {
+
+    const area =
+        document.getElementById(
+            "accountArea"
+        );
+
+
+    if (!currentUser) {
+
+        area.innerHTML = `
+
+            <a
+                href="#"
+                onclick="
+                    openAuth('login');
+                    return false;
+                "
+            >
+                login
+            </a>
+
+        `;
+
+        return;
+
+    }
+
+
+    const username =
+        currentProfile
+            ? escapeHTML(
+                currentProfile.username
+            )
+            : "account";
+
+
+    area.innerHTML = `
+
+        <span style="color:#075f1e;">
+            ${username}
+        </span>
+
+        &nbsp;
+
+        <a
+            href="#"
+            onclick="
+                logout();
+                return false;
+            "
+        >
+            logout
+        </a>
+
+    `;
+
+}
+
+
+/* ============================================================
+   AUTH
+============================================================ */
+
+let authMode =
+    "login";
+
+
+function openAuth(mode) {
+
+    authMode =
+        mode;
+
+
+    document.getElementById(
+        "modalBackground"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "authModal"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "postModal"
+    ).style.display =
+        "none";
+
+
+    updateAuthModal();
+
+}
+
+
+function updateAuthModal() {
+
+    const signup =
+        authMode === "signup";
+
+
+    document.getElementById(
+        "authTitle"
+    ).textContent =
+        signup
+            ? "Create an account"
+            : "Log in";
+
+
+    document.getElementById(
+        "authButton"
+    ).textContent =
+        signup
+            ? "Sign up"
+            : "Log in";
+
+
+    document.getElementById(
+        "usernameField"
+    ).style.display =
+        signup
+            ? "block"
+            : "none";
+
+
+    document.getElementById(
+        "authSwitch"
+    ).textContent =
+        signup
+            ? "Already have an account? Log in"
+            : "Need an account? Sign up";
+
+
+    document.getElementById(
+        "authError"
+    ).textContent =
+        "";
+
+}
+
+
+function switchAuth() {
+
+    authMode =
+        authMode === "login"
+            ? "signup"
+            : "login";
+
+    updateAuthModal();
+
+}
+
+
+/* ============================================================
+   AUTH SUBMIT
+============================================================ */
+
+async function submitAuth() {
+
+    const email =
+        document.getElementById(
+            "authEmail"
+        ).value.trim();
+
+
+    const password =
+        document.getElementById(
+            "authPassword"
+        ).value;
+
+
+    const errorBox =
+        document.getElementById(
+            "authError"
+        );
+
+
+    errorBox.textContent =
+        "";
+
+
+    if (!email || !password) {
+
+        errorBox.textContent =
+            "Please enter an email and password.";
+
+        return;
+
+    }
+
+
+    /* LOGIN */
+
+    if (authMode === "login") {
+
+        const {
+            error
+        } = await sb.auth.signInWithPassword({
+
+            email,
+            password
+
+        });
+
+
+        if (error) {
+
+            errorBox.textContent =
+                error.message;
+
+            return;
+
+        }
+
+
+        closeModal();
+
+        await loadUser();
+        await loadPosts();
+
+        return;
+
+    }
+
+
+    /* SIGNUP */
+
+    const username =
+        document.getElementById(
+            "authUsername"
+        ).value.trim();
+
+
+    if (
+        !/^[A-Za-z0-9_]{3,24}$/.test(
+            username
+        )
+    ) {
+
+        errorBox.textContent =
+            "Username must be 3-24 characters and only use letters, numbers and _.";
+
+        return;
+
+    }
+
+
+    /*
+        Check if username already exists.
+    */
+
+    const {
+        data: existing,
+        error: usernameError
+    } = await sb
+        .from("profiles")
+        .select("id")
+        .eq(
+            "username",
+            username
+        )
+        .maybeSingle();
+
+
+    if (usernameError) {
+
+        errorBox.textContent =
+            usernameError.message;
+
+        return;
+
+    }
+
+
+    if (existing) {
+
+        errorBox.textContent =
+            "That username is already taken.";
+
+        return;
+
+    }
+
+
+    /*
+        GRAND is reserved.
+        The SQL database should also enforce this.
+    */
+
+    const {
+        data,
+        error
+    } = await sb.auth.signUp({
+
+        email,
+        password,
+
+        options: {
+            data: {
+                username
+            }
+        }
+
+    });
+
+
+    if (error) {
+
+        errorBox.textContent =
+            error.message;
+
+        return;
+
+    }
+
+
+    if (data.session) {
+
+        await loadUser();
+
+        closeModal();
+
+        await loadPosts();
+
+        return;
+
+    }
+
+
+    errorBox.textContent =
+        "Account created. Check your email to confirm your account.";
+
+}
+
+
+/* ============================================================
+   LOGOUT
+============================================================ */
+
+async function logout() {
+
+    await sb.auth.signOut();
+
+    currentUser =
+        null;
+
+    currentProfile =
+        null;
+
+    updateAccountArea();
+
+    await loadPosts();
+
+}
+
+
+/* ============================================================
+   LOAD POSTS
+============================================================ */
+
+async function loadPosts(options = {}) {
+
+    const container =
+        document.getElementById(
+            "posts"
+        );
+
+
+    container.innerHTML = `
+
+        <div class="empty">
+            Loading...
+        </div>
+
+    `;
+
+
+    let query =
+        sb
+            .from("posts")
+            .select(`
+                id,
+                author_id,
+                community,
+                title,
+                body,
+                image_url,
+                score,
+                created_at
+            `);
+
+
+    if (options.community) {
+
+        query =
+            query.eq(
+                "community",
+                options.community
+            );
+
+    }
+
+
+    if (options.search) {
+
+        const q =
+            options.search.trim();
+
+
+        if (q) {
+
+            query =
+                query.or(
+                    `title.ilike.%${q}%,body.ilike.%${q}%`
+                );
+
+        }
+
+    }
+
+
+    if (options.top) {
+
+        query =
+            query
+                .order(
+                    "score",
+                    {
+                        ascending: false
+                    }
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+    } else {
+
+        query =
+            query.order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+    }
+
+
+    const {
+        data: posts,
+        error
+    } = await query;
+
+
+    if (error) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <b>
+                    Could not load posts.
+                </b>
+
+                ${escapeHTML(
+                    error.message
+                )}
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    if (
+        !posts ||
+        posts.length === 0
+    ) {
+
+        renderPosts([]);
+
+        return;
+
+    }
+
+
+    /*
+        Get every author ID.
+    */
+
+    const authorIDs = [
+        ...new Set(
+            posts.map(
+                post =>
+                    post.author_id
+            )
+        )
+    ];
+
+
+    /*
+        Fetch profiles separately.
+        This is the important fix.
+    */
+
+    const {
+        data: profiles,
+        error: profileError
+    } = await sb
+        .from("profiles")
+        .select(`
+            id,
+            username,
+            developer
+        `)
+        .in(
+            "id",
+            authorIDs
+        );
+
+
+    if (profileError) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <b>
+                    Could not load profiles.
+                </b>
+
+                ${escapeHTML(
+                    profileError.message
+                )}
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const profileMap = {};
+
+
+    (profiles || [])
+        .forEach(profile => {
+
+            profileMap[
+                profile.id
+            ] = profile;
+
+        });
+
+
+    /*
+        Attach profile to each post.
+    */
+
+    posts.forEach(post => {
+
+        post.profiles =
+            profileMap[
+                post.author_id
+            ] || {};
+
+    });
+
+
+    renderPosts(posts);
+
+}
+
+
+/* ============================================================
+   RENDER POSTS
+============================================================ */
+
+function renderPosts(posts) {
+
+    const container =
+        document.getElementById(
+            "posts"
+        );
+
+
+    if (!posts.length) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <b>
+                    There aren't any posts yet.
+                </b>
+
+                Be the first to start a discussion.
+
+                <br><br>
+
+                <button
+                    class="greenbutton"
+                    onclick="openPostModal()"
+                >
+                    submit a post
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        posts.map(post => {
+
+            const profile =
+                post.profiles || {};
+
+
+            const username =
+                profile.username ||
+                "unknown";
+
+
+            const developer =
+                profile.developer === true;
+
+
+            return `
+
+                <div class="post">
+
+                    <div class="vote">
+
+                        <button
+                            onclick="vote(${post.id}, 1)"
+                        >
+                            ▲
+                        </button>
+
+                        <div class="score">
+                            ${post.score || 0}
+                        </div>
+
+                        <button
+                            onclick="vote(${post.id}, -1)"
+                        >
+                            ▼
+                        </button>
+
+                    </div>
+
+
+                    <div class="postbody">
+
+                        <div
+                            class="posttitle"
+                            onclick="openPost(${post.id})"
+                        >
+                            ${escapeHTML(
+                                post.title
+                            )}
+                        </div>
+
+
+                        <div class="meta">
+
+                            <span class="username">
+                                ${escapeHTML(
+                                    username
+                                )}
+                            </span>
+
+                            ${
+                                developer
+                                ? `
+                                    <span class="developer">
+                                        Developer
+                                    </span>
+                                `
+                                : ""
+                            }
+
+                            &nbsp; · &nbsp;
+
+                            ${escapeHTML(
+                                post.community
+                            )}
+
+                            &nbsp; · &nbsp;
+
+                            ${formatDate(
+                                post.created_at
+                            )}
+
+                        </div>
+
+
+                        ${
+                            post.body
+                            ? `
+                                <div class="posttext">
+                                    ${escapeHTML(
+                                        post.body
+                                    )}
+                                </div>
+                            `
+                            : ""
+                        }
+
+
+                        ${
+                            post.image_url
+                            ? `
+                                <img
+                                    class="postimage"
+                                    src="${escapeHTML(
+                                        post.image_url
+                                    )}"
+                                    alt="Post image"
+                                >
+                            `
+                            : ""
+                        }
+
+
+                        <div class="postactions">
+
+                            <a
+                                onclick="
+                                    openPost(${post.id})
+                                "
+                            >
+                                comments
+                            </a>
+
+                            <a
+                                onclick="
+                                    vote(${post.id}, 1)
+                                "
+                            >
+                                upvote
+                            </a>
+
+                            ${
+                                currentUser &&
+                                currentUser.id ===
+                                post.author_id
+                                ? `
+                                    <a
+                                        onclick="
+                                            deletePost(
+                                                ${post.id}
+                                            )
+                                        "
+                                    >
+                                        delete
+                                    </a>
+                                `
+                                : ""
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* ============================================================
+   POST MODAL
+============================================================ */
+
+function openPostModal() {
+
+    if (!currentUser) {
+
+        openAuth("login");
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "modalBackground"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "authModal"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "postModal"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "postError"
+    ).textContent =
+        "";
+
+}
+
+
+function closeModal() {
+
+    document.getElementById(
+        "modalBackground"
+    ).style.display =
+        "none";
+
+}
+
+
+/* ============================================================
+   CREATE POST
+============================================================ */
+
+async function submitPost() {
+
+    if (!currentUser) {
+
+        closeModal();
+
+        openAuth("login");
+
+        return;
+
+    }
+
+
+    const community =
+        document.getElementById(
+            "postCommunity"
+        ).value;
+
+
+    const title =
+        document.getElementById(
+            "postTitle"
+        ).value.trim();
+
+
+    const body =
+        document.getElementById(
+            "postBody"
+        ).value.trim();
+
+
+    const image =
+        document.getElementById(
+            "postImage"
+        ).files[0];
+
+
+    const errorBox =
+        document.getElementById(
+            "postError"
+        );
+
+
+    errorBox.textContent =
+        "";
+
+
+    if (!title) {
+
+        errorBox.textContent =
+            "A title is required.";
+
+        return;
+
+    }
+
+
+    let imageURL =
+        null;
+
+
+    /* IMAGE */
+
+    if (image) {
+
+        if (
+            image.size >
+            10 * 1024 * 1024
+        ) {
+
+            errorBox.textContent =
+                "Images must be smaller than 10 MB.";
+
+            return;
+
+        }
+
+
+        const allowed = [
+
+            "image/png",
+            "image/jpeg",
+            "image/gif",
+            "image/webp"
+
+        ];
+
+
+        if (
+            !allowed.includes(
+                image.type
+            )
+        ) {
+
+            errorBox.textContent =
+                "That image type isn't supported.";
+
+            return;
+
+        }
+
+
+        const extension =
+            image.name
+                .split(".")
+                .pop()
+                .toLowerCase();
+
+
+        const filename =
+            currentUser.id +
+            "/" +
+            crypto.randomUUID() +
+            "." +
+            extension;
+
+
+        const {
+            error: uploadError
+        } = await sb.storage
+            .from("post-images")
+            .upload(
+                filename,
+                image,
+                {
+                    cacheControl: "3600",
+                    upsert: false
+                }
+            );
+
+
+        if (uploadError) {
+
+            errorBox.textContent =
+                uploadError.message;
+
+            return;
+
+        }
+
+
+        const {
+            data: publicData
+        } = sb.storage
+            .from("post-images")
+            .getPublicUrl(
+                filename
+            );
+
+
+        imageURL =
+            publicData.publicUrl;
+
+    }
+
+
+    /* POST */
+
+    const {
+        error
+    } = await sb
+        .from("posts")
+        .insert({
+
+            author_id:
+                currentUser.id,
+
+            community:
+                community,
+
+            title:
+                title,
+
+            body:
+                body || null,
+
+            image_url:
+                imageURL
+
+        });
+
+
+    if (error) {
+
+        errorBox.textContent =
+            error.message;
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "postTitle"
+    ).value = "";
+
+
+    document.getElementById(
+        "postBody"
+    ).value = "";
+
+
+    document.getElementById(
+        "postImage"
+    ).value = "";
+
+
+    closeModal();
+
+    await loadPosts();
+
+}
+
+
+/* ============================================================
+   VOTING
+============================================================ */
+
+async function vote(
+    postID,
+    amount
+) {
+
+    if (!currentUser) {
+
+        openAuth("login");
+
+        return;
+
+    }
+
+
+    const {
+        data: existing,
+        error: findError
+    } = await sb
+        .from("votes")
+        .select("vote")
+        .eq(
+            "user_id",
+            currentUser.id
+        )
+        .eq(
+            "post_id",
+            postID
+        )
+        .maybeSingle();
+
+
+    if (findError) {
+
+        alert(
+            findError.message
+        );
+
+        return;
+
+    }
+
+
+    if (existing) {
+
+        if (
+            existing.vote ===
+            amount
+        ) {
+
+            await sb
+                .from("votes")
+                .delete()
+                .eq(
+                    "user_id",
+                    currentUser.id
+                )
+                .eq(
+                    "post_id",
+                    postID
+                );
+
+        } else {
+
+            await sb
+                .from("votes")
+                .update({
+                    vote: amount
+                })
+                .eq(
+                    "user_id",
+                    currentUser.id
+                )
+                .eq(
+                    "post_id",
+                    postID
+                );
+
+        }
+
+    } else {
+
+        await sb
+            .from("votes")
+            .insert({
+
+                user_id:
+                    currentUser.id,
+
+                post_id:
+                    postID,
+
+                vote:
+                    amount
+
+            });
+
+    }
+
+
+    /*
+        Recalculate score.
+    */
+
+    const {
+        data: votes
+    } = await sb
+        .from("votes")
+        .select("vote")
+        .eq(
+            "post_id",
+            postID
+        );
+
+
+    const score =
+        (votes || [])
+            .reduce(
+                (total, v) =>
+                    total + v.vote,
+                0
+            );
+
+
+    await sb
+        .from("posts")
+        .update({
+            score: score
+        })
+        .eq(
+            "id",
+            postID
+        );
+
+
+    await loadPosts();
+
+}
+
+
+/* ============================================================
+   DELETE
+============================================================ */
+
+async function deletePost(id) {
+
+    if (!currentUser)
+        return;
+
+
+    if (
+        !confirm(
+            "Delete this post?"
+        )
+    ) {
+        return;
+    }
+
+
+    const {
+        error
+    } = await sb
+        .from("posts")
+        .delete()
+        .eq(
+            "id",
+            id
+        )
+        .eq(
+            "author_id",
+            currentUser.id
+        );
+
+
+    if (error) {
+
+        alert(
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    await loadPosts();
+
+}
+
+
+/* ============================================================
+   SEARCH
+============================================================ */
+
+async function searchPosts() {
+
+    const query =
+        document.getElementById(
+            "searchInput"
+        ).value.trim();
+
+
+    if (!query) {
+
+        await loadPosts();
+
+        return;
+
+    }
+
+
+    await loadPosts({
+        search: query
+    });
+
+}
+
+
+/* ============================================================
+   COMMUNITY
+============================================================ */
+
+async function filterCommunity(
+    name
+) {
+
+    await loadPosts({
+        community: name
+    });
+
+}
+
+
+/* ============================================================
+   TOP
+============================================================ */
+
+async function sortTop() {
+
+    await loadPosts({
+        top: true
+    });
+
+}
+
+
+/* ============================================================
+   HOME
+============================================================ */
+
+async function showHome() {
+
+    document.getElementById(
+        "searchInput"
+    ).value = "";
+
+    await loadPosts();
+
+}
+
+
+/* ============================================================
+   OPEN POST
+============================================================ */
+
+async function openPost(id) {
+
+    /*
+        Fetch the post WITHOUT profiles().
+    */
+
+    const {
+        data: post,
+        error
+    } = await sb
+        .from("posts")
+        .select(`
+            id,
+            author_id,
+            community,
+            title,
+            body,
+            image_url,
+            score,
+            created_at
+        `)
+        .eq(
+            "id",
+            id
+        )
+        .single();
+
+
+    if (error || !post) {
+
+        alert(
+            error
+                ? error.message
+                : "Post not found."
+        );
+
+        return;
+
+    }
+
+
+    /*
+        Fetch the post author separately.
+    */
+
+    const {
+        data: postProfile
+    } = await sb
+        .from("profiles")
+        .select(`
+            id,
+            username,
+            developer
+        `)
+        .eq(
+            "id",
+            post.author_id
+        )
+        .maybeSingle();
+
+
+    /*
+        Fetch comments without profile embedding.
+    */
+
+    const {
+        data: comments,
+        error: commentsError
+    } = await sb
+        .from("comments")
+        .select(`
+            id,
+            post_id,
+            author_id,
+            body,
+            created_at
+        `)
+        .eq(
+            "post_id",
+            id
+        )
+        .order(
+            "created_at",
+            {
+                ascending: true
+            }
+        );
+
+
+    if (commentsError) {
+
+        alert(
+            commentsError.message
+        );
+
+        return;
+
+    }
+
+
+    /*
+        Fetch comment profiles separately.
+    */
+
+    const commentAuthorIDs = [
+        ...new Set(
+            (comments || [])
+                .map(
+                    comment =>
+                        comment.author_id
+                )
+        )
+    ];
+
+
+    let commentProfiles = [];
+
+
+    if (
+        commentAuthorIDs.length
+    ) {
+
+        const {
+            data
+        } = await sb
+            .from("profiles")
+            .select(`
+                id,
+                username,
+                developer
+            `)
+            .in(
+                "id",
+                commentAuthorIDs
+            );
+
+
+        commentProfiles =
+            data || [];
+
+    }
+
+
+    const commentProfileMap =
+        {};
+
+
+    commentProfiles.forEach(
+        profile => {
+
+            commentProfileMap[
+                profile.id
+            ] = profile;
+
+        }
+    );
+
+
+    const profile =
+        postProfile || {};
+
+
+    let html = `
+
+        <div class="post">
+
+            <div class="postbody">
+
+                <div class="posttitle">
+                    ${escapeHTML(
+                        post.title
+                    )}
+                </div>
+
+                <div class="meta">
+
+                    <span class="username">
+                        ${escapeHTML(
+                            profile.username ||
+                            "unknown"
+                        )}
+                    </span>
+
+                    ${
+                        profile.developer
+                        ? `
+                            <span class="developer">
+                                Developer
+                            </span>
+                        `
+                        : ""
+                    }
+
+                    ${
+                        currentUser &&
+                        currentUser.id ===
+                        post.author_id
+                        ? `
+                            <span class="op">
+                                OP
+                            </span>
+                        `
+                        : ""
+                    }
+
+                    &nbsp; · &nbsp;
+
+                    ${escapeHTML(
+                        post.community
+                    )}
+
+                    &nbsp; · &nbsp;
+
+                    ${formatDate(
+                        post.created_at
+                    )}
+
+                </div>
+
+
+                ${
+                    post.body
+                    ? `
+                        <div class="posttext">
+                            ${escapeHTML(
+                                post.body
+                            )}
+                        </div>
+                    `
+                    : ""
+                }
+
+
+                ${
+                    post.image_url
+                    ? `
+                        <img
+                            class="postimage"
+                            src="${escapeHTML(
+                                post.image_url
+                            )}"
+                            alt="Post image"
+                        >
+                    `
+                    : ""
+                }
+
+            </div>
+
+        </div>
+
+
+        <div
+            style="
+                margin-top:12px;
+                background:#eee;
+                border:1px solid #ccc;
+                padding:5px 7px;
+                font-size:8pt;
+            "
+        >
+            Comments
+        </div>
+
+    `;
+
+
+    if (
+        !comments ||
+        comments.length === 0
+    ) {
+
+        html += `
+
+            <div class="empty">
+
+                <b>
+                    No comments yet.
+                </b>
+
+                Be the first to reply.
+
+            </div>
+
+        `;
+
+    } else {
+
+        html +=
+            comments
+                .map(comment => {
+
+                    const p =
+                        commentProfileMap[
+                            comment.author_id
+                        ] || {};
+
+
+                    const isOP =
+                        comment.author_id ===
+                        post.author_id;
+
+
+                    return `
+
+                        <div class="comment">
+
+                            <div class="commentbody">
+
+                                <div class="meta">
+
+                                    <span class="username">
+                                        ${escapeHTML(
+                                            p.username ||
+                                            "unknown"
+                                        )}
+                                    </span>
+
+                                    ${
+                                        p.developer
+                                        ? `
+                                            <span class="developer">
+                                                Developer
+                                            </span>
+                                        `
+                                        : ""
+                                    }
+
+                                    ${
+                                        isOP
+                                        ? `
+                                            <span class="op">
+                                                OP
+                                            </span>
+                                        `
+                                        : ""
+                                    }
+
+                                    &nbsp; · &nbsp;
+
+                                    ${formatDate(
+                                        comment.created_at
+                                    )}
+
+                                </div>
+
+
+                                <div class="posttext">
+                                    ${escapeHTML(
+                                        comment.body
+                                    )}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                })
+                .join("");
+
+    }
+
+
+    /*
+        Reply box.
+    */
+
+    if (currentUser) {
+
+        html += `
+
+            <div
+                style="
+                    margin-top:12px;
+                    border:1px solid #ccc;
+                    padding:10px;
+                    background:#fafafa;
+                "
+            >
+
+                <textarea
+                    id="commentBox"
+                    style="
+                        width:100%;
+                        height:70px;
+                        box-sizing:border-box;
+                        font-family:Verdana;
+                        font-size:9pt;
+                    "
+                    placeholder="reply..."
+                ></textarea>
+
+                <br><br>
+
+                <button
+                    class="greenbutton"
+                    onclick="
+                        submitComment(${id})
+                    "
+                >
+                    reply
+                </button>
+
+            </div>
+
+        `;
+
+    } else {
+
+        html += `
+
+            <div class="empty">
+
+                <a
+                    href="#"
+                    onclick="
+                        openAuth('login');
+                        return false;
+                    "
+                >
+                    log in
+                </a>
+
+                to reply.
+
+            </div>
+
+        `;
+
+    }
+
+
+    document.getElementById(
+        "posts"
+    ).innerHTML =
+        html;
+
+}
+
+
+/* ============================================================
+   COMMENTS
+============================================================ */
+
+async function submitComment(
+    postID
+) {
+
+    if (!currentUser) {
+
+        openAuth("login");
+
+        return;
+
+    }
+
+
+    const box =
+        document.getElementById(
+            "commentBox"
+        );
+
+
+    const body =
+        box.value.trim();
+
+
+    if (!body)
+        return;
+
+
+    const {
+        error
+    } = await sb
+        .from("comments")
+        .insert({
+
+            post_id:
+                postID,
+
+            author_id:
+                currentUser.id,
+
+            body:
+                body
+
+        });
+
+
+    if (error) {
+
+        alert(
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    await openPost(
+        postID
+    );
+
+}
+
+
+/* ============================================================
+   AUTH STATE
+============================================================ */
+
+sb.auth.onAuthStateChange(
+    async (
+        event,
+        session
+    ) => {
+
+        currentUser =
+            session
+                ? session.user
+                : null;
+
+        await loadUser();
+
+    }
+);
+
+
+/* ============================================================
+   START
+============================================================ */
+
+(async function() {
+
+    await loadUser();
+
+    await loadPosts();
+
+})();
+
+</script>
+
+</body>
+</html>
